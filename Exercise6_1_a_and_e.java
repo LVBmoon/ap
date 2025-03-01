@@ -10,9 +10,11 @@ public class Exercise6_1_a_and_e {
         Scanner scanner = new Scanner(System.in);
 
         //a:
+        int sum = 0;
         for (int i = 2; i <= 100; i += 2) {
-            System.out.print(i + " ");
+            sum += i;
         }
+        System.out.print(sum);
 
         //e:
         System.out.println();
