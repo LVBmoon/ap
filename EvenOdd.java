@@ -6,6 +6,7 @@ import java.util.Scanner;
             int number = sc.nextInt();
             printEvenOdd(number);
             printEvenNumbersOfArange(number);
+            System.out.println();
             sc.close();
         }
 
