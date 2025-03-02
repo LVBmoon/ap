@@ -3,7 +3,14 @@ import java.util.Scanner;
         public static void main(String[] args) {
             System.out.println("Please enter a number: ");
             Scanner sc = new Scanner(System.in);
+
             int number = sc.nextInt();
+            printEvenOdd(number);
+            printEvenNumbersOfArange(number);
+            sc.close();
+        }
+
+        public static void printEvenOdd(int number) {
             if (number % 2 == 0) {
                 System.out.println(number + " is even");
             }
@@ -11,5 +18,12 @@ import java.util.Scanner;
                 System.out.println(number + " is odd");
             }
         }
+
+        public static void printEvenNumbersOfArange(int number) {
+            for (int i = 2; i < number; i+=2) {
+                System.out.print(i + " ");
+            }
+        }
+
     }
 
