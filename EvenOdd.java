@@ -10,6 +10,7 @@ import java.util.Scanner;
             else {
                 System.out.println(number + " is odd");
             }
+            System.out.println();
         }
     }
 
