@@ -1,4 +1,4 @@
-/*The question:
+package src.znu.lvbmoon.exercise.chapter6;/*The question:
 Write programs with loops that compute
 a) The sum of all even numbers between 2 and 100 (inclusive).
 e) The sum of all odd digits of an input. (For example, if the input is 32677, the

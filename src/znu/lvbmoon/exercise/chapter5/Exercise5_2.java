@@ -1,4 +1,4 @@
-/*The question:
+package src.znu.lvbmoon.exercise.chapter5;/*The question:
 Write a program that reads a floating-point number and prints “zero” if the number
 is zero. Otherwise, print “positive” or “negative”. Add “small” if the absolute value
 of the number is less than 1, or “large” if it exceeds 1,000,000.*/

@@ -1,3 +1,5 @@
+package src.znu.lvbmoon.exercise.chapter6;
+
 import java.util.Scanner;
 
 public class Exercise6_2 {
