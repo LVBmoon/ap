@@ -25,10 +25,10 @@ public class Exercise5_18_ver1 {
             str2 = str3;
             str3 = temp;
         }
-        if (str1.compareTo(str3) > 0) {
+        if (str1.compareTo(str2) > 0) {
             temp = str1;
-            str1 = str3;
-            str3 = temp;
+            str1 = str2;
+            str2 = temp;
         }
         System.out.println(str1);
         System.out.println(str2);
