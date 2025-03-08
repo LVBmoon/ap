@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class Exercise6_1_a_and_e {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
         //a:
         int sum = 0;
         for (int i = 2; i <= 100; i += 2) {

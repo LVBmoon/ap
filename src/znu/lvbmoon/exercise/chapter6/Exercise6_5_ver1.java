@@ -17,6 +17,7 @@ public class Exercise6_5_ver1 {
         System.out.println("Smallest: " + DataSet.getSmallest() + "\nLargest: " + DataSet.getLargest());
         System.out.println("Average: " + DataSet.getAverage() + "\nRange: " + DataSet.getRange());
     }
+
     public static class DataSet {
         static double smallest = Double.MAX_VALUE;
         static double largest = Double.MIN_VALUE;

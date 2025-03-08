@@ -18,11 +18,13 @@ public class Exercise6_3 {
         }
         if (existUppercaseLetter == 0)
             System.out.println("There is no uppercase letter...");
+
         //b:
         System.out.println("\npart b: ");
         for (int i = 0; i < userStr.length(); i += 2) {
             System.out.print(userStr.charAt(i));
         }
+
         //c,d:
         System.out.println("\npart c: ");
         int numberOfVowels = 0;
@@ -41,6 +43,7 @@ public class Exercise6_3 {
              * System.out,println(replased);*/
         }
         System.out.println("\npart d: " + numberOfVowels);
+
         //e:
         System.out.println("\npart e: ");
         for (int i = 0; i < userStr.length(); i ++) {

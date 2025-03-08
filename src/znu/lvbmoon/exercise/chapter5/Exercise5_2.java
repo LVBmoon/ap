@@ -1,6 +1,7 @@
 package src.znu.lvbmoon.exercise.chapter5;
 
 import java.util.Scanner;
+
 public class Exercise5_2 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);

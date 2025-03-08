@@ -34,6 +34,7 @@ public class Exercise5_15 {
         System.out.println("The tax is " + tax + "$");
     }
 }
+
 /*first I thought I should solve it in this wat:
         if (income <= 50_000) tax = (income*0.01);
         else if (income > 50_000 && income <= 75_000) tax = (income - 50_000)* 0.02;

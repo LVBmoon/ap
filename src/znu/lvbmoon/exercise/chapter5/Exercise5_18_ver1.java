@@ -16,11 +16,13 @@ public class Exercise5_18_ver1 {
             str1 = str2;
             str2 = temp;
         }
+
         if (str2.compareTo(str3) > 0) {
             temp = str2;
             str2 = str3;
             str3 = temp;
         }
+
         if (str1.compareTo(str2) > 0) {
             temp = str1;
             str1 = str2;

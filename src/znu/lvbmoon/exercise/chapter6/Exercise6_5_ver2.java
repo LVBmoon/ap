@@ -20,7 +20,6 @@ public class Exercise6_5_ver2 {
             double value = Double.parseDouble(input);
             dataSet.add(value);
         }
-
         System.out.println("Smallest: " + dataSet.getSmallest()+ "\nLargest: " + dataSet.getLargest());
         System.out.println("Average: " + dataSet.getAverage()+ "\nRange: " + dataSet.getRange());
     }

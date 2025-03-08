@@ -12,10 +12,8 @@ public class Exercise6_17 {
             for (int j = 0; j < num; j++) {
                 System.out.print('*');
             }
-
             //space between squares:
             System.out.print(' ');
-
             //The hollow square:
             for (int j = 0; j < num; j++) {
                 if (i == 0 || i == num - 1 || j == 0 || j == num - 1) {

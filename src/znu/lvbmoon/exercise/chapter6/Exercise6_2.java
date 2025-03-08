@@ -45,7 +45,6 @@ public class Exercise6_2 {
         System.out.println("\na) Smallest = " + smallest + "  -  Largest = " + largest);
         System.out.println("b) Even count = " + evenCount + "  -  Odd count = " + oddCount);
         System.out.println("c) Cumulative total = " + cumulativeTotal);
-
         if (!hasDuplicates) {
             System.out.println("d) No adjacent duplicates found.");
         }
