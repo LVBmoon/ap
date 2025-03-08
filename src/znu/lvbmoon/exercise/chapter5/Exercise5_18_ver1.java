@@ -1,8 +1,4 @@
-package src.znu.lvbmoon.exercise.chapter5;/*Write a program that reads in three strings and sorts them lexicographically.
-Enter three strings: Charlie Able Baker
-Able
-Baker
-Charlie*/
+package src.znu.lvbmoon.exercise.chapter5;
 
 import java.util.Scanner;
 

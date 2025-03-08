@@ -1,12 +1,4 @@
-package src.znu.lvbmoon.exercise.chapter6;/*
-Write a program that reads a word and prints each character of the word on a separate
-line. For example, if the user provides the input "Harry", the program prints
-H
-a
-r
-r
-y
-*/
+package src.znu.lvbmoon.exercise.chapter6;
 
 import java.util.Scanner;
 
