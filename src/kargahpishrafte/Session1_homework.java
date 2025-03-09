@@ -20,7 +20,6 @@ public class Session1_homework {
 
     public static boolean BalancedParentheses(String expression) {
         Stack<Character> stack = new Stack<>();
-
         for (int i = 0; i < expression.length(); i++) {
             char ch = expression.charAt(i);
             if (ch == '(') {
