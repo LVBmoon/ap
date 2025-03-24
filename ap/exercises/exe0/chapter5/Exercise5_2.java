@@ -1,4 +1,4 @@
-package src.znu.lvbmoon.exercise.chapter5;
+package ap.exercises.exe0.chapter5;
 
 import java.util.Scanner;
 

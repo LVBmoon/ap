@@ -1,4 +1,4 @@
-package src.znu.lvbmoon.exercise.chapter6;
+package ap.exercises.exe0.chapter6;
 
 public class Exercise6_16 {
     public static void main (String[] args) {
