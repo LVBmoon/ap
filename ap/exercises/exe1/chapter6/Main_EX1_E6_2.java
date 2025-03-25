@@ -1,8 +1,8 @@
-package ap.exercises.exe0.chapter6;
+package ap.exercises.exe1.chapter6;
 
 import java.util.Scanner;
 
-public class Exercise6_2 {
+public class Main_EX1_E6_2 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int smallest = Integer.MAX_VALUE;

@@ -1,8 +1,8 @@
-package ap.exercises.exe0.chapter6;
+package ap.exercises.exe1.chapter6;
 
 import java.util.Scanner;
 
-public class Exercise6_5_ver2 {
+public class Main_EX1_E6_5_ver2 {
     private double[] values;
     private int count;
 
@@ -11,7 +11,7 @@ public class Exercise6_5_ver2 {
 
         System.out.print("Enter the maximum number of values: ");
         int maxSize = sc.nextInt();
-        Exercise6_5_ver2 dataSet = new Exercise6_5_ver2(maxSize);
+        Main_EX1_E6_5_ver2 dataSet = new Main_EX1_E6_5_ver2(maxSize);
 
         System.out.println("Enter floating-point values (type 'stop' to finish):");
         while (true) {
@@ -23,7 +23,7 @@ public class Exercise6_5_ver2 {
         System.out.println("Smallest: " + dataSet.getSmallest()+ "\nLargest: " + dataSet.getLargest());
         System.out.println("Average: " + dataSet.getAverage()+ "\nRange: " + dataSet.getRange());
     }
-    public Exercise6_5_ver2(int maxSize) {
+    public Main_EX1_E6_5_ver2(int maxSize) {
         values = new double[maxSize];
         count = 0;
     }

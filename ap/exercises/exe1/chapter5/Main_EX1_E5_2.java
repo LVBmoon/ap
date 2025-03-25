@@ -1,8 +1,8 @@
-package ap.exercises.exe0.chapter5;
+package ap.exercises.exe1.chapter5;
 
 import java.util.Scanner;
 
-public class Exercise5_2 {
+public class Main_EX1_E5_2 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter a floating-point number: ");

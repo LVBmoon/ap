@@ -1,8 +1,8 @@
-package ap.exercises.exe0.chapter5;
+package ap.exercises.exe1.chapter5;
 
 import java.util.Scanner;
 
-public class Exercise5_18_ver1 {
+public class Main_EX1_E5_18 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 

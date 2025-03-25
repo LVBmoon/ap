@@ -1,8 +1,8 @@
-package ap.exercises.exe0.chapter6;
+package ap.exercises.exe1.chapter6;
 
 import java.util.Scanner;
 
-public class Exercise6_3 {
+public class Main_EX1_E6_3 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the number the string: ");
