@@ -25,3 +25,30 @@ public class Main_EX2_PM_1_1 {
         }
     }
 }
+
+/*
+second way:
+public class Main_EX2_PM_1_1 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Please enter k: ");
+        int k = sc.nextInt();
+        for (int i = 1; i <= k+2 ; i++) {
+            for (int j = 1; j <= k+2 ; j++) {
+                if (i == 1 || i == k+2){
+                    System.out.print("*");
+                }
+                else {
+                    if(j == 1 || j == k+2){
+                        System.out.print("*");
+                    }
+                    else {
+                        System.out.print(" ");
+                    }
+                }
+            }
+            System.out.println();
+        }
+    }
+
+}*/
