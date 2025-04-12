@@ -68,6 +68,7 @@ class pacmanGUI extends JFrame implements KeyListener {
         Insets insets = getInsets();
         int contentWidth = (width - insets.left - insets.right) / boxSize;
         int contentHeight = (height - insets.top - insets.bottom) / boxSize;
+
         // Center Pacman in playable area
         pacmanPoint.setLocation(contentWidth / 2, contentHeight / 2);
         // Generate dots within visible bounds
