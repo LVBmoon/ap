@@ -16,6 +16,17 @@ public class HallwayLight{
         return secondSwitch;
     }
 
+    public void setFirstSwitchState(int firstSwitch){
+        if(firstSwitch == 0 || firstSwitch == 1) {
+            this.firstSwitch = firstSwitch;
+        }
+    }
+    public void setSecondSwitchState(int secondSwitch){
+        if(secondSwitch == 0 || secondSwitch == 1) {
+            this.secondSwitch = secondSwitch;
+        }
+    }
+
     public int getLampState(){
         if(firstSwitch == secondSwitch){
             return 0;
