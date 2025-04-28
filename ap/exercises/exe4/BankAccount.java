@@ -3,8 +3,13 @@ package ap.exercises.exe4;
 public class BankAccount {
     private double balance;
 
-    public BankAccount(){
+    public BankAccount(){//E_3_7
         balance = 0;
+
+    }
+
+    public BankAccount(double balance){//E_3_8
+        this.balance = balance;
 
     }
 
@@ -27,5 +32,14 @@ public class BankAccount {
     }
     public double getBalance() {
         return balance;
+    }
+
+    public void addInterest(double rate){
+        if (rate > 0) {
+            balance += (balance * rate / 100);
+        }
+        else {
+            throw new IllegalArgumentException("Interest rate must be positive!");
+        }
     }
 }
