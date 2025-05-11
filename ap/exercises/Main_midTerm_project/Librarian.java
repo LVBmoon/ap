@@ -15,8 +15,8 @@ public class Librarian extends Person {
         return librarianID;
     }
     public void setLibrarianID(int librarianID) {
-        if (String.valueOf(this.librarianID).length() == 9) {
-            this.librarianID = this.librarianID;
+        if (String.valueOf(librarianID).length() == 9) {
+            this.librarianID = librarianID;
         }
         else {
             throw new IllegalArgumentException("The librarian ID cannot have less than 9 digits");
@@ -26,5 +26,14 @@ public class Librarian extends Person {
     @Override
     public String toString() {
         return super.toString() + " | Librarian ID : " + librarianID;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        if (!super.equals(obj)) return false;
+        Librarian librarian = (Librarian) obj;
+        return librarianID == librarian.librarianID;
     }
 }

@@ -44,23 +44,17 @@ public class Student extends Person {
 
     @Override
     public String toString() {
-        return super.toString() + " | ID :" + studentID + " | Membership Date : " + membershipDate;
+        return super.toString() + " | ID :" + studentID + " | Major : " + studentMajor +
+                " | Membership Date : " + membershipDate;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
+        if (this == obj) {return true;}
+        if (obj == null || getClass() != obj.getClass()) {return false;}
         Student student = (Student) obj;
 
-        if (!super.equals(obj)) {
-            return false;
-        }
-
+        if (!super.equals(obj)) {return false;}
         return studentID == student.studentID;
     }
 }

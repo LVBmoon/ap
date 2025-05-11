@@ -8,12 +8,14 @@ public class Book {
 //    private String publisher;
     private int publicationYear;
     private int pages;
+    private boolean isAvailable;
 
     public Book(String title, String author, int publicationYear, int pages) {
         this.title = title;
         this.author = author;
         this.publicationYear = publicationYear;
         this.pages = pages;
+        this.isAvailable = true; //It's reserved true because we submit a book and it shouldn't be in constructor input
     }
 
     public String getTitle() {
@@ -64,24 +66,27 @@ public class Book {
         }
     }
 
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+    public void setAvailable(boolean available) {
+        this.isAvailable = available;
+    }
+
     @Override
     public String toString() {
         return "Title : " + title + " | Author : " + author + " | Publication Year : " + publicationYear +
-                " | Pages : " + pages;
+                " | Pages : " + pages + " | Available: " + (isAvailable ? "Yes" : "No");
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
+        if (this == obj) {return true;}
+        if (obj == null || getClass() != obj.getClass()) {return false;}
+
         Book book = (Book) obj;
-        if (publicationYear != book.publicationYear) {
-            return false;
-        }
+        if (publicationYear != book.publicationYear) {return false;}
         return title.equals(book.title) && author.equals(book.author) && pages == book.pages;
     }
 }

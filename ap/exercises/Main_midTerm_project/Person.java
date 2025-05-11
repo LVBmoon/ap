@@ -3,6 +3,7 @@ package ap.exercises.Main_midTerm_project;
 public class Person {
     private String firstName;
     private String lastName;
+//    private int pass
 
     public Person(String firstName, String lastName) {
         setFirstName(firstName);
