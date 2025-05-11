@@ -4,9 +4,9 @@ public class Person {
     private String firstName;
     private String lastName;
 
-    public Person(String studentFirstName, String studentLastName) {
-        setFirstName(studentFirstName);
-        setLastName(studentLastName);
+    public Person(String firstName, String lastName) {
+        setFirstName(firstName);
+        setLastName(lastName);
     }
 
     public String getFirstName() {
