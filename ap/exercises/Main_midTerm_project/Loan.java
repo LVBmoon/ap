@@ -14,8 +14,8 @@ public class Loan {
     private Librarian receivingLibrarian;
     Random random = new Random();
 
-    private static List<Loan> activeLoans = new java.util.ArrayList<>();
-    private static List<Loan> overdueLoans = new java.util.ArrayList<>();
+    private List<Loan> activeLoans = new java.util.ArrayList<>();
+    private List<Loan> overdueLoans = new java.util.ArrayList<>();
 
 
     public Loan(Book book, Student student, List<Librarian> librarians, LocalDate loanDate, LocalDate shouldReturnDate) {

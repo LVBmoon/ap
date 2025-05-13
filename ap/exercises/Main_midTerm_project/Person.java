@@ -3,11 +3,12 @@ package ap.exercises.Main_midTerm_project;
 public class Person {
     private String firstName;
     private String lastName;
-//    private int pass
+    private String password;
 
-    public Person(String firstName, String lastName) {
+    public Person(String firstName, String lastName, String password) {
         setFirstName(firstName);
         setLastName(lastName);
+        setPassword(password);
     }
 
     public String getFirstName() {
@@ -33,6 +34,19 @@ public class Person {
             throw new IllegalArgumentException("Last Name cannot be empty or less than 3 characters!");
         }
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        if (password != null && password.length() == 8) {
+            this.password = password;
+        } else {
+            throw new IllegalArgumentException("Password must be exactly 8 characters!");
+        }
+    }
+
 
     @Override
     public String toString() {

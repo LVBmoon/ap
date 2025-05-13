@@ -1,13 +1,15 @@
 package ap.exercises.Main_midTerm_project;
 
+import javax.swing.*;
+
 public class Librarian extends Person {
     private int librarianID;
 //    private LocalDate hireDate;
 //    private int cntOfGettingAndGivingBooks;
 //    private int salary;
 //    private String liberianEducation;
-    public Librarian(String firstName, String lastName, int librarianID) {
-        super(firstName, lastName);
+    public Librarian(String firstName, String lastName, int librarianID, String password) {
+        super(firstName, lastName,password);
         setLibrarianID(librarianID);
     }
 

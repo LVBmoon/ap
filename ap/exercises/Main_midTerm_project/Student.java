@@ -7,8 +7,9 @@ public class Student extends Person {
     private int studentID;
     private final LocalDate membershipDate;
 
-    public Student (String studentFirstName, String studentLastName, String studentMajor, int studentID, LocalDate membershipDate) {
-        super(studentFirstName,studentLastName);
+    public Student (String studentFirstName, String studentLastName, String studentMajor, int studentID,
+                    LocalDate membershipDate, String password) {
+        super(studentFirstName,studentLastName,password);
         setStudentID(studentID);
         this.membershipDate = membershipDate;
     }

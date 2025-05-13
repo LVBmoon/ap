@@ -15,7 +15,7 @@ public class Book {
         this.author = author;
         this.publicationYear = publicationYear;
         this.pages = pages;
-        this.isAvailable = true; //It's reserved true because we submit a book and it shouldn't be in constructor input
+        this.isAvailable = true; //It's reserved true because we submit a book, and it shouldn't be in constructor input
     }
 
     public String getTitle() {
