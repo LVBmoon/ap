@@ -1,4 +1,4 @@
-package ap.exercises.Main_midTerm_project.version1;
+package ap.exercises.midTerm_project.version1;
 
 import java.io.Serializable;
 
