@@ -1,26 +1,24 @@
-package ap.exercises.midTerm_project.version2;
+package ap.exercises.midTerm_project.version2_part1;
 
 import java.io.Serializable;
 
-public class Librarian implements Serializable {
+public class LibraryManager implements Serializable {
     private String firstName;
     private String lastName;
-    private String employeeId;
+    private String educationLevel;
     private String username;
     private String password;
-    private int processedLoans;
 
-    public Librarian(String firstName, String lastName, String employeeId,
-                     String username, String password) {
+    public LibraryManager(String firstName, String lastName, String educationLevel,
+                          String username, String password) {
         setFirstName(firstName);
         setLastName(lastName);
-        setEmployeeId(employeeId);
+        setEducationLevel(educationLevel);
         setUsername(username);
         setPassword(password);
-        this.processedLoans = 0;
     }
 
-    // Setters :
+    // Setters :)
     public void setFirstName(String firstName) {
         if (firstName == null || firstName.trim().isEmpty()) {
             throw new IllegalArgumentException("First name cannot be empty!");
@@ -35,11 +33,11 @@ public class Librarian implements Serializable {
         this.lastName = lastName.trim();
     }
 
-    public void setEmployeeId(String employeeId) {
-        if (employeeId == null || employeeId.trim().isEmpty()) {
-            throw new IllegalArgumentException("Employee ID cannot be empty!");
+    public void setEducationLevel(String educationLevel) {
+        if (educationLevel == null || educationLevel.trim().isEmpty()) {
+            throw new IllegalArgumentException("Education level cannot be empty!");
         }
-        this.employeeId = employeeId.trim();
+        this.educationLevel = educationLevel.trim();
     }
 
     public void setUsername(String username) {
@@ -56,18 +54,15 @@ public class Librarian implements Serializable {
         this.password = password;
     }
 
-    // Getters
+    // Getters :
     public String getFirstName() { return firstName; }
     public String getLastName() { return lastName; }
-    public String getEmployeeId() { return employeeId; }
+    public String getEducationLevel() { return educationLevel; }
     public String getUsername() { return username; }
     public boolean checkPassword(String password) { return this.password.equals(password); }
-    public int getProcessedLoans() { return processedLoans; }
-    public void incrementProcessedLoans() { processedLoans++; }
 
     @Override
     public String toString() {
-        return firstName + " " + lastName + " (" + employeeId + ") - Username: " + username +
-                " - Processed loans: " + processedLoans;
+        return firstName + " " + lastName + " (" + educationLevel + ") - Username: " + username;
     }
 }

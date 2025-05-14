@@ -1,4 +1,4 @@
-package ap.exercises.midTerm_project.version2;
+package ap.exercises.midTerm_project.version2_part1;
 
 public class Main {
     public static void main(String[] args) {

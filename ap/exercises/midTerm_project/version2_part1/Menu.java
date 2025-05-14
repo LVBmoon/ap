@@ -1,4 +1,4 @@
-package ap.exercises.midTerm_project.version2;
+package ap.exercises.midTerm_project.version2_part1;
 //I made this one less complicated toward the previous ones :)
 import java.util.ArrayList;
 import java.util.Date;
