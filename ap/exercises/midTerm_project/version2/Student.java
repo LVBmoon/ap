@@ -42,10 +42,10 @@ public class Student implements Serializable {
     }
 
     public void setStudentId(String studentId) {
-        if (studentId != null && studentId.length() == 9){
-            this.studentId = studentId.trim();
+        if (lastName == null || lastName.trim().isEmpty()){
+            throw new IllegalArgumentException("Student ID cannot be empty!");
         }
-        throw new IllegalArgumentException("Student ID cannot be empty or more and less than 9 characters!");
+        this.studentId = studentId.trim();
     }
 
     public void setFieldOfStudy(String fieldOfStudy) {
