@@ -1,13 +1,12 @@
 package ap.exercises.midTerm_project.version2_part2;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class ManagerMenu extends Menu {
     private LibraryManager manager;
 
-    public ManagerMenu(Library library, Scanner scanner, InputProcessor inputProcessor) {
-        super(library, scanner, inputProcessor);
+    public ManagerMenu(Library library,InputProcessor inputProcessor) {
+        super(library, inputProcessor);
         this.manager = null;
     }
 

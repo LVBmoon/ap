@@ -20,15 +20,15 @@ public class Main {
             Menu menu;
             switch (choice) {
                 case 1:
-                    menu = new StudentMenu(library, scanner, inputProcessor);
+                    menu = new StudentMenu(library, inputProcessor);
                     menu.showMenu();
                     break;
                 case 2:
-                    menu = new LibrarianMenu(library, scanner, inputProcessor);
+                    menu = new LibrarianMenu(library,inputProcessor);
                     menu.showMenu();
                     break;
                 case 3:
-                    menu = new ManagerMenu(library, scanner, inputProcessor);
+                    menu = new ManagerMenu(library, inputProcessor);
                     menu.showMenu();
                     break;
                 case 4:

@@ -78,11 +78,13 @@ public class Borrow {
     @Override
     public String toString() {
         String result = "Borrow: " + book.getTitle() + " to " + student.getFirstName() + " " +
-                student.getLastName() + " issued by " + issuedBy.getFirstName() +
-                " " + issuedBy.getLastName() + " on " + borrowDate + " (Due: " + dueDate + ")";
+                student.getLastName() + " (" + student.getStudentId() + "), Field: " +
+                student.getFieldOfStudy() + ", Debt: " + student.calculateDebt() +
+                " IRR, Issued by: " + issuedBy.getFirstName() + " " + issuedBy.getLastName() +
+                ", Borrow Date: " + borrowDate + ", Due: " + dueDate;
         if (isReturned) {
-            result += " - Returned on " + returnDate + " by " + receivedBy.getFirstName() +
-                    " " + receivedBy.getLastName();
+            result += ", Returned on: " + returnDate + ", Received by: " +
+                    receivedBy.getFirstName() + " " + receivedBy.getLastName();
             if (isOverdue()) {
                 result += " (OVERDUE)";
             }

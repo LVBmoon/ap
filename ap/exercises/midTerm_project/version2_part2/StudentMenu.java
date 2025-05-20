@@ -1,13 +1,12 @@
 package ap.exercises.midTerm_project.version2_part2;
 
 import java.time.LocalDate;
-import java.util.Scanner;
 
 public class StudentMenu extends Menu {
     private Student student;
 
-    public StudentMenu(Library library, Scanner scanner, InputProcessor inputProcessor) {
-        super(library, scanner, inputProcessor);
+    public StudentMenu(Library library, InputProcessor inputProcessor) {
+        super(library, inputProcessor);
         this.student = null;
     }
 
@@ -35,37 +34,41 @@ public class StudentMenu extends Menu {
             } else {
                 System.out.println("\n--- Student Menu ---\nWelcome " + student.getFirstName() + " " + student.getLastName() + "!");
                 System.out.println("   1. Search Books");
-                System.out.println("   2. Borrow Book");
+                System.out.println("   2. Request Borrow");
                 System.out.println("   3. View Active Borrows");
-                System.out.println("   4. Return Book");
+                System.out.println("   4. Request Return");
                 System.out.println("   5. View Borrow History");
-                System.out.println("   6. Change Password");
-                System.out.println("   7. Logout");
+                System.out.println("   6. View Request Status");
+                System.out.println("   7. Change Password");
+                System.out.println("   8. Logout");
                 int choice = inputProcessor.getIntInput("Please enter choice: ");
                 switch (choice) {
                     case 1:
                         searchBooks();
                         break;
                     case 2:
-                        borrowBook();
+                        requestBorrow();
                         break;
                     case 3:
                         viewActiveBorrows();
                         break;
                     case 4:
-                        returnBook();
+                        requestReturn();
                         break;
                     case 5:
                         viewBorrowHistory();
                         break;
                     case 6:
-                        changePassword();
+                        viewRequestStatus();
                         break;
                     case 7:
+                        changePassword();
+                        break;
+                    case 8:
                         student = null;
                         break;
                     default:
-                        System.out.println("Invalid choice.Try again.");
+                        System.out.println("Invalid choice. Try again.");
                 }
             }
         }
@@ -124,21 +127,47 @@ public class StudentMenu extends Menu {
         }
     }
 
-    private void borrowBook() {
+    private void requestBorrow() {
         String title = inputProcessor.getStringInput("Enter book title to borrow: ");
         Book book = library.findBookByTitle(title);
         if (book == null) {
             System.out.println("No book found with that title.");
             return;
         }
-        if (student.borrowBook(book)) {
-            Librarian librarian = library.getRandomLibrarian();
-            Borrow borrow = new Borrow(book, student, librarian, LocalDate.now());
-            library.addBorrow(borrow);
-            System.out.println("Book borrowed successfully for 2 weeks!");
-        } else {
-            System.out.println("Cannot borrow book (either not available or you've reached your limit of 5 books).");
+        if (student.getBorrowedBooks().size() >= 5) {
+            System.out.println("You have reached the maximum borrow limit (5 books).");
+            return;
         }
+        if (!book.isAvailable()) {
+            System.out.println("Book is not available.");
+            return;
+        }
+        Librarian librarian = library.getRandomLibrarian();
+        BorrowRequest request = new BorrowRequest(book, student, librarian, LocalDate.now(), false);
+        library.addBorrowRequest(request);
+        System.out.println("Borrow request sent to " + librarian.getFirstName() + " " + librarian.getLastName() + ".");
+    }
+
+    private void requestReturn() {
+        String title = inputProcessor.getStringInput("Enter book title to return: ");
+        Borrow borrow = null;
+        for (int i = 0; i < library.getBorrows().size(); i++) {
+            Borrow b = library.getBorrows().get(i);
+            if (b.getBook().getTitle().equalsIgnoreCase(title) &&
+                    b.getStudent().getStudentId().equals(student.getStudentId()) &&
+                    !b.isReturned()) {
+                borrow = b;
+                break;
+            }
+        }
+        if (borrow == null) {
+            System.out.println("No active borrow found for this book!");
+            return;
+        }
+        Librarian librarian = library.getRandomLibrarian();
+        BorrowRequest request = new BorrowRequest(borrow.getBook(), student, librarian, LocalDate.now(), true);
+        library.addBorrowRequest(request);
+        System.out.println("Return request sent to " + librarian.getFirstName() + " " + librarian.getLastName() + ".");
     }
 
     private void viewActiveBorrows() {
@@ -156,32 +185,6 @@ public class StudentMenu extends Menu {
         }
     }
 
-    private void returnBook() {
-        String title = inputProcessor.getStringInput("Enter book title to return: ");
-        Borrow borrow = null;
-        for (int i = 0; i < library.getBorrows().size(); i++) {
-            Borrow b = library.getBorrows().get(i);
-            if (b.getBook().getTitle().equalsIgnoreCase(title) &&
-                    b.getStudent().getStudentId().equals(student.getStudentId()) &&
-                    !b.isReturned()) {
-                borrow = b;
-                break;
-            }
-        }
-        if (borrow == null) {
-            System.out.println("No active borrow found for this book!");
-            return;
-        }
-        Book book = borrow.getBook();
-        if (student.returnBook(book)) {
-            Librarian librarian = library.getRandomLibrarian();
-            borrow.returnBook(librarian, LocalDate.now());
-            System.out.println("Book returned successfully.");
-        } else {
-            System.out.println("Failed to return book.");
-        }
-    }
-
     private void viewBorrowHistory() {
         boolean found = false;
         System.out.println("Borrow History:");
@@ -194,6 +197,20 @@ public class StudentMenu extends Menu {
         }
         if (!found) {
             System.out.println("No borrow history.");
+        }
+    }
+
+    private void viewRequestStatus() {
+        boolean found = false;
+        System.out.println("Your Request Status:");
+        for (BorrowRequest request : library.getBorrowRequests()) {
+            if (request.getStudent().getStudentId().equals(student.getStudentId())) {
+                System.out.println(request);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No requests found.");
         }
     }
 

@@ -9,6 +9,7 @@ public class Library {
     private ArrayList<Student> students;
     private ArrayList<Librarian> librarians;
     private ArrayList<Borrow> borrows;
+    private ArrayList<BorrowRequest> borrowRequests;
     private LibraryManager manager;
 
     public Library(String name, LibraryManager manager) {
@@ -18,7 +19,7 @@ public class Library {
         this.students = new ArrayList<>();
         this.librarians = new ArrayList<>();
         this.borrows = new ArrayList<>();
-        // Initialize with two librarians as wanted
+        this.borrowRequests = new ArrayList<>();
         librarians.add(new Librarian("LVB", "moon", "L001", "LVB!", "codingIsFun88", "nothing yet"));
         librarians.add(new Librarian("Dervish", "Grady", "L002", "TheGreatMoreed", "deathIsNotTheEnding", "unknown"));
     }
@@ -50,6 +51,10 @@ public class Library {
         return new ArrayList<>(borrows);
     }
 
+    public ArrayList<BorrowRequest> getBorrowRequests() {
+        return new ArrayList<>(borrowRequests);
+    }
+
     public LibraryManager getManager() {
         return manager;
     }
@@ -68,6 +73,10 @@ public class Library {
 
     public boolean addBorrow(Borrow borrow) {
         return borrows.add(borrow);
+    }
+
+    public boolean addBorrowRequest(BorrowRequest request) {
+        return borrowRequests.add(request);
     }
 
     public Book findBookByTitle(String title) {
@@ -114,9 +123,7 @@ public class Library {
     }
 
     public ArrayList<Book> getMostBorrowedBooks(int count) {
-        // Create a copy to sort
         ArrayList<Book> sortedBooks = new ArrayList<>(books);
-        // Bubble sort by borrowCount (descending)
         for (int i = 0; i < sortedBooks.size() - 1; i++) {
             for (int j = 0; j < sortedBooks.size() - i - 1; j++) {
                 if (sortedBooks.get(j).getBorrowCount() < sortedBooks.get(j + 1).getBorrowCount()) {
@@ -126,7 +133,6 @@ public class Library {
                 }
             }
         }
-        // Return up to 'count' books
         ArrayList<Book> result = new ArrayList<>();
         for (int i = 0; i < sortedBooks.size() && i < count; i++) {
             result.add(sortedBooks.get(i));
@@ -139,6 +145,7 @@ public class Library {
         return name + " Library - Books: " + books.size() +
                 "| Students: " + students.size() +
                 "| Librarians: " + librarians.size() +
-                "| Borrows: " + borrows.size();
+                "| Borrows: " + borrows.size() +
+                "| Requests: " + borrowRequests.size();
     }
 }

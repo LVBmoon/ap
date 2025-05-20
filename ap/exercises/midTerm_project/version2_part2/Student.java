@@ -2,6 +2,7 @@ package ap.exercises.midTerm_project.version2_part2;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.time.temporal.ChronoUnit;
 
 public class Student extends User {
     private String studentId;
@@ -75,6 +76,21 @@ public class Student extends User {
         return false;
     }
 
+    // Calculate debt (500 IRR per day overdue)
+    public long calculateDebt() {
+        long totalDebt = 0;
+        for (Borrow borrow : Library.getInstance().getBorrows()) {
+            if (borrow.getStudent().getStudentId().equals(this.studentId) && borrow.isOverdue()) {
+                LocalDate endDate = borrow.isReturned() ? borrow.getReturnDate() : LocalDate.now();
+                long daysOverdue = ChronoUnit.DAYS.between(borrow.getDueDate(), endDate);
+                if (daysOverdue > 0) {
+                    totalDebt += daysOverdue * 500;
+                }
+            }
+        }
+        return totalDebt;
+    }
+
     // Getters
     public String getStudentId() {
         return studentId;
@@ -100,13 +116,13 @@ public class Student extends User {
         return new ArrayList<>(borrowedBooks);
     }
 
+    public String getPassword() {
+        return password; // Keep plaintext as requested
+    }
+
     @Override
     public String toString() {
         return firstName + " " + lastName + " (" + studentId + ") - " + fieldOfStudy +
                 " - Joined: " + joinDate + " - Username: " + username;
-    }
-
-    public String getPassword() {
-        return "You can't see password anymore";
     }
 }

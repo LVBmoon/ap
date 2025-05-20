@@ -9,13 +9,12 @@ public class DataStorage {
     private static final String LIBRARIANS_FILE = "librarians.txt";
     private static final String MANAGER_FILE = "manager.txt";
     private static final String BORROWS_FILE = "borrows.txt";
+    private static final String REQUESTS_FILE = "requests.txt";
 
-    // Helper method to escape commas and pipes
     private String escapeField(String field) {
         if (field == null) {
             return "";
         }
-    // Replace commas and pipes with underscores
         return field.replace(",", "_").replace("|", "_");
     }
 
@@ -88,11 +87,23 @@ public class DataStorage {
         } catch (IOException e) {
             System.err.println("Error saving borrows: " + e.getMessage());
         }
+
+        // Save borrow requests
+        try (PrintWriter writer = new PrintWriter(new FileWriter(REQUESTS_FILE))) {
+            for (BorrowRequest request : library.getBorrowRequests()) {
+                writer.println(escapeField(request.getBook().getTitle()) + "," +
+                        escapeField(request.getStudent().getStudentId()) + "," +
+                        escapeField(request.getAssignedLibrarian().getEmployeeId()) + "," +
+                        request.getRequestDate() + "," + request.getStatus() + "," +
+                        request.isReturnRequest());
+            }
+        } catch (IOException e) {
+            System.err.println("Error saving borrow requests: " + e.getMessage());
+        }
     }
 
     public Library loadLibrary() {
         LibraryManager manager = null;
-        // Load manager
         try (BufferedReader reader = new BufferedReader(new FileReader(MANAGER_FILE))) {
             String line = reader.readLine();
             if (line != null) {
@@ -177,7 +188,7 @@ public class DataStorage {
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 if (parts.length >= 6) {
-                    Book book = library.findBookByTitle(parts[0]);
+                    Book book = library.findBookByTitle(parts[0]); // Fixed
                     Student student = library.findStudentByStudentId(parts[1]);
                     Librarian issuedBy = library.findLibrarianByEmployeeId(parts[2]);
                     if (book != null && student != null && issuedBy != null) {
@@ -194,6 +205,28 @@ public class DataStorage {
             }
         } catch (IOException e) {
             System.err.println("Error loading borrows: " + e.getMessage());
+        }
+
+        // Load borrow requests
+        try (BufferedReader reader = new BufferedReader(new FileReader(REQUESTS_FILE))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(",");
+                if (parts.length >= 6) {
+                    Book book = library.findBookByTitle(parts[0]);
+                    Student student = library.findStudentByStudentId(parts[1]);
+                    Librarian assignedLibrarian = library.findLibrarianByEmployeeId(parts[2]);
+                    if (book != null && student != null && assignedLibrarian != null) {
+                        BorrowRequest request = new BorrowRequest(book, student, assignedLibrarian,
+                                LocalDate.parse(parts[3]),
+                                Boolean.parseBoolean(parts[5]));
+                        request.setStatus(parts[4]); // Use setter
+                        library.addBorrowRequest(request);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error loading borrow requests: " + e.getMessage());
         }
 
         return library;
