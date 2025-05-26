@@ -66,13 +66,18 @@ public class BorrowRequest {
     @Override
     public String toString() {
         String type = isReturnRequest ? "Return Request" : "Borrow Request";
-        String debtInfo = ", Debt: " + student.calculateDebt() + " IRR";
-        String bookInfo = ", Book: " + book.getTitle() + " by " + book.getAuthor() +
-                " (Year: " + book.getPublicationYear() + ", Pages: " + book.getPageCount() + ")";
-        String studentInfo = student.getFirstName() + " " + student.getLastName() +
-                " (" + student.getStudentId() + "), Field: " + student.getFieldOfStudy();
+        // Handle null or invalid student
+        String debtInfo = ", Debt: " + (student != null ? student.calculateDebt() : "N/A") + " IRR";
+        // Handle null book
+        String bookInfo = ", Book: " + (book != null ? book.getTitle() + " by " + book.getAuthor() +
+                " (Year: " + book.getPublicationYear() + ", Pages: " + book.getPageCount() + ")" : "N/A");
+        // Handle null student
+        String studentInfo = (student != null ? student.getFirstName() + " " + student.getLastName() +
+                " (" + student.getStudentId() + "), Field: " + student.getFieldOfStudy() : "Unknown Student");
+        // Handle null librarian
+        String librarianInfo = (assignedLibrarian != null ? assignedLibrarian.getFirstName() + " " +
+                assignedLibrarian.getLastName() : "Unknown Librarian");
         return type + " for " + studentInfo + debtInfo + bookInfo +
-                ", Assigned to: " + assignedLibrarian.getFirstName() + " " +
-                assignedLibrarian.getLastName() + ", Status: " + status;
+                ", Assigned to: " + librarianInfo + ", Status: " + status;
     }
 }

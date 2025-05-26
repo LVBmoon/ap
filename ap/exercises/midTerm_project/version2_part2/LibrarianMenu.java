@@ -1,6 +1,7 @@
 package ap.exercises.midTerm_project.version2_part2;
 
 import java.time.LocalDate;
+import java.util.ArrayList; // Added for clarity
 
 public class LibrarianMenu extends Menu {
     private Librarian librarian;
@@ -115,45 +116,38 @@ public class LibrarianMenu extends Menu {
     }
 
     private void reviewBorrowRequests() {
-        boolean found = false;
-        System.out.println("\nPending Borrow Requests:");
+        // Store filtered requests to fix numbering issue
+        ArrayList<BorrowRequest> filteredRequests = new ArrayList<>();
         ArrayList<BorrowRequest> requests = library.getBorrowRequests();
-        for (int i = 0; i < requests.size(); i++) {
-            BorrowRequest request = requests.get(i);
+        for (BorrowRequest request : requests) {
             if (request.getAssignedLibrarian().getEmployeeId().equals(librarian.getEmployeeId()) &&
                     request.getStatus().equals("PENDING") && !request.isReturnRequest()) {
-                System.out.println((i + 1) + ". " + request);
-                found = true;
+                filteredRequests.add(request);
             }
         }
-        if (!found) {
+
+        if (filteredRequests.isEmpty()) {
             System.out.println("No pending borrow requests.");
             return;
         }
+
+        // Display filtered requests with correct numbering
+        System.out.println("\nPending Borrow Requests:");
+        for (int i = 0; i < filteredRequests.size(); i++) {
+            System.out.println((i + 1) + ". " + filteredRequests.get(i));
+        }
+
         int choice = inputProcessor.getIntInput("Enter request number to process (or 0 to cancel): ");
         if (choice == 0) {
             return;
         }
-        if (choice < 1 || choice > requests.size()) {
+        if (choice < 1 || choice > filteredRequests.size()) {
             System.out.println("Invalid request number!");
             return;
         }
-        BorrowRequest selectedRequest = null;
-        int index = 0;
-        for (BorrowRequest request : requests) {
-            if (request.getAssignedLibrarian().getEmployeeId().equals(librarian.getEmployeeId()) &&
-                    request.getStatus().equals("PENDING") && !request.isReturnRequest()) {
-                index++;
-                if (index == choice) {
-                    selectedRequest = request;
-                    break;
-                }
-            }
-        }
-        if (selectedRequest == null) {
-            System.out.println("Invalid request!");
-            return;
-        }
+
+        // Select request based on filtered list
+        BorrowRequest selectedRequest = filteredRequests.get(choice - 1);
         System.out.println("\nRequest Details: " + selectedRequest);
         int action = inputProcessor.getIntInput("1. Approve\n2. Reject\nEnter choice: ");
         if (action == 1) {
@@ -176,58 +170,52 @@ public class LibrarianMenu extends Menu {
     }
 
     private void reviewReturnRequests() {
-        boolean found = false;
-        System.out.println("\nPending Return Requests:");
+        // Store filtered requests to fix numbering issue
+        ArrayList<BorrowRequest> filteredRequests = new ArrayList<>();
         ArrayList<BorrowRequest> requests = library.getBorrowRequests();
-        for (int i = 0; i < requests.size(); i++) {
-            BorrowRequest request = requests.get(i);
+        for (BorrowRequest request : requests) {
             if (request.getAssignedLibrarian().getEmployeeId().equals(librarian.getEmployeeId()) &&
                     request.getStatus().equals("PENDING") && request.isReturnRequest()) {
-                // Find the borrow record to show borrow and due dates
-                Borrow borrow = null;
-                for (Borrow b : library.getBorrows()) {
-                    if (b.getBook().getTitle().equalsIgnoreCase(request.getBook().getTitle()) &&
-                            b.getStudent().getStudentId().equals(request.getStudent().getStudentId()) &&
-                            !b.isReturned()) {
-                        borrow = b;
-                        break;
-                    }
-                }
-                String borrowInfo = borrow != null ? ", Borrow Date: " + borrow.getBorrowDate() +
-                        ", Due Date: " + borrow.getDueDate() : "";
-                System.out.println((i + 1) + ". " + request + ", Request Date: " +
-                        request.getRequestDate() + borrowInfo);
-                found = true;
+                filteredRequests.add(request);
             }
         }
-        if (!found) {
+
+        if (filteredRequests.isEmpty()) {
             System.out.println("No pending return requests.");
             return;
         }
+
+        // Display filtered requests with correct numbering
+        System.out.println("\nPending Return Requests:");
+        for (int i = 0; i < filteredRequests.size(); i++) {
+            BorrowRequest request = filteredRequests.get(i);
+            // Find the borrow record to show borrow and due dates
+            Borrow borrow = null;
+            for (Borrow b : library.getBorrows()) {
+                if (b.getBook().getTitle().equalsIgnoreCase(request.getBook().getTitle()) &&
+                        b.getStudent().getStudentId().equals(request.getStudent().getStudentId()) &&
+                        !b.isReturned()) {
+                    borrow = b;
+                    break;
+                }
+            }
+            String borrowInfo = borrow != null ? ", Borrow Date: " + borrow.getBorrowDate() +
+                    ", Due Date: " + borrow.getDueDate() : "";
+            System.out.println((i + 1) + ". " + request + ", Request Date: " +
+                    request.getRequestDate() + borrowInfo);
+        }
+
         int choice = inputProcessor.getIntInput("Enter request number to process (or 0 to cancel): ");
         if (choice == 0) {
             return;
         }
-        if (choice < 1 || choice > requests.size()) {
+        if (choice < 1 || choice > filteredRequests.size()) {
             System.out.println("Invalid request number!");
             return;
         }
-        BorrowRequest selectedRequest = null;
-        int index = 0;
-        for (BorrowRequest request : requests) {
-            if (request.getAssignedLibrarian().getEmployeeId().equals(librarian.getEmployeeId()) &&
-                    request.getStatus().equals("PENDING") && request.isReturnRequest()) {
-                index++;
-                if (index == choice) {
-                    selectedRequest = request;
-                    break;
-                }
-            }
-        }
-        if (selectedRequest == null) {
-            System.out.println("Invalid request!");
-            return;
-        }
+
+        // Select request based on filtered list
+        BorrowRequest selectedRequest = filteredRequests.get(choice - 1);
         // Find the borrow record
         Borrow borrow = null;
         for (Borrow b : library.getBorrows()) {

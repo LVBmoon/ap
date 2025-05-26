@@ -11,8 +11,9 @@ public class Student extends User {
     private String username;
     private String password;
     private ArrayList<Book> borrowedBooks;
+    private Library library; // Added to access library borrows for debt calculation
 
-    public Student(String firstName, String lastName, String studentId, String fieldOfStudy, String username, String password) {
+    public Student(String firstName, String lastName, String studentId, String fieldOfStudy, String username, String password, Library library) {
         super(firstName, lastName);
         setStudentId(studentId);
         setFieldOfStudy(fieldOfStudy);
@@ -20,6 +21,7 @@ public class Student extends User {
         setPassword(password);
         this.joinDate = LocalDate.now();
         this.borrowedBooks = new ArrayList<>();
+        this.library = library; // Set library reference
     }
 
     // Setters
@@ -79,7 +81,12 @@ public class Student extends User {
     // Calculate debt (500 IRR per day overdue)
     public long calculateDebt() {
         long totalDebt = 0;
-        for (Borrow borrow : Library.getInstance().getBorrows()) {
+        // Check if library is available to avoid errors
+        if (library == null) {
+            System.out.println("Error: Library reference is missing!");
+            return 0;
+        }
+        for (Borrow borrow : library.getBorrows()) {
             if (borrow.getStudent().getStudentId().equals(this.studentId) && borrow.isOverdue()) {
                 LocalDate endDate = borrow.isReturned() ? borrow.getReturnDate() : LocalDate.now();
                 long daysOverdue = ChronoUnit.DAYS.between(borrow.getDueDate(), endDate);

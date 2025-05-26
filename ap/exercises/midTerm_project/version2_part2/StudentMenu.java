@@ -95,7 +95,7 @@ public class StudentMenu extends Menu {
         }
 
         try {
-            Student newStudent = new Student(firstName, lastName, studentId, fieldOfStudy, username, password);
+            Student newStudent = new Student(firstName, lastName, studentId, fieldOfStudy, username, password, library);
             library.addStudent(newStudent);
             System.out.println("Registration successful.");
         } catch (IllegalArgumentException e) {
@@ -104,6 +104,16 @@ public class StudentMenu extends Menu {
     }
 
     private void login() {
+        // Debug: Show loaded students
+        if (library.getStudents().isEmpty()) {
+            System.out.println("No students loaded. Please register or check data files (students.txt).");
+            return;
+        }
+        System.out.println("Loaded students for debugging:");
+        for (Student s : library.getStudents()) {
+            System.out.println("Username: " + s.getUsername() + ", Password: " + s.getPassword() +
+                    ", Name: " + s.getFirstName() + " " + s.getLastName());
+        }
         String username = inputProcessor.getStringInput("Enter username: ");
         String password = inputProcessor.getStringInput("Enter password: ");
         for (int i = 0; i < library.getStudents().size(); i++) {
