@@ -1,5 +1,13 @@
 package ap.exercises.midTerm_project.version2_part2;
 
+import ap.exercises.midTerm_project.version2_part2.core.Library;
+import ap.exercises.midTerm_project.version2_part2.data.DataStorage;
+import ap.exercises.midTerm_project.version2_part2.data.InputProcessor;
+import ap.exercises.midTerm_project.version2_part2.menu.LibrarianMenu;
+import ap.exercises.midTerm_project.version2_part2.menu.ManagerMenu;
+import ap.exercises.midTerm_project.version2_part2.menu.Menu;
+import ap.exercises.midTerm_project.version2_part2.menu.StudentMenu;
+
 import java.util.Scanner;
 
 public class Main {

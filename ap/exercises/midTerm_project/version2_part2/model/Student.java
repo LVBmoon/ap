@@ -1,4 +1,7 @@
-package ap.exercises.midTerm_project.version2_part2;
+package ap.exercises.midTerm_project.version2_part2.model;
+
+import ap.exercises.midTerm_project.version2_part2.core.Borrow;
+import ap.exercises.midTerm_project.version2_part2.core.Library;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

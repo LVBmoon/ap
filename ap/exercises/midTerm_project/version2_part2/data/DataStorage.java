@@ -1,4 +1,12 @@
-package ap.exercises.midTerm_project.version2_part2;
+package ap.exercises.midTerm_project.version2_part2.data;
+
+import ap.exercises.midTerm_project.version2_part2.core.Borrow;
+import ap.exercises.midTerm_project.version2_part2.core.BorrowRequest;
+import ap.exercises.midTerm_project.version2_part2.core.Library;
+import ap.exercises.midTerm_project.version2_part2.model.Book;
+import ap.exercises.midTerm_project.version2_part2.model.Librarian;
+import ap.exercises.midTerm_project.version2_part2.model.LibraryManager;
+import ap.exercises.midTerm_project.version2_part2.model.Student;
 
 import java.io.*;
 import java.time.LocalDate;

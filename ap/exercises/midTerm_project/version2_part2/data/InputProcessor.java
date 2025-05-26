@@ -1,4 +1,4 @@
-package ap.exercises.midTerm_project.version2_part2;
+package ap.exercises.midTerm_project.version2_part2.data;
 
 import java.util.Scanner;
 

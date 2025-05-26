@@ -1,4 +1,4 @@
-package ap.exercises.midTerm_project.version2_part2;
+package ap.exercises.midTerm_project.version2_part2.model;
 
 public class Book {
     private String title;
