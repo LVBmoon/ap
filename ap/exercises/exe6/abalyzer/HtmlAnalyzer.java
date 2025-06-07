@@ -12,8 +12,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class HtmlAnalyzer {
-    private static List<String> fileList = DirectoryTools.getFilesAbsolutePathInDirectory(Conf.SAVE_DIRECTORY);
-
+    private static List<String> fileList = DirectoryTools.getFilesAbsolutePathInDirectory(Conf.HTML_DIRECTORY);
     public static List<String> getAllUrls() {
         List<String> urls = fileList.stream()
                 .map(fileAddress -> FileTools.getTextFileLines(fileAddress))
@@ -28,10 +27,7 @@ public class HtmlAnalyzer {
 
     public static List<String> getTopUrls(int k) {
         Map<String, Long> urlCount = getAllUrls().stream()
-                .collect(Collectors.groupingBy(
-                        s -> s,
-                        Collectors.counting()
-                ));
+                .collect(Collectors.groupingBy(s -> s, Collectors.counting()));
 
         List<String> topUrls = urlCount.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
@@ -43,7 +39,7 @@ public class HtmlAnalyzer {
     }
 
     public static void printTopCountUrls(int k) {
-        StringCounter urlCounter = new StringCounter(); // Changed from ObjectCounter
+        StringCounter urlCounter = new StringCounter();
         getAllUrls().forEach(s -> urlCounter.add(s));
         for (Map.Entry<String, Integer> urlCountEntry : urlCounter.getTop(k)) {
             System.out.println(urlCountEntry.getKey() + " -> " + urlCountEntry.getValue());
@@ -54,6 +50,5 @@ public class HtmlAnalyzer {
         HtmlAnalyzer.printTopCountUrls(10);
         System.out.println("____________________");
         HtmlAnalyzer.getTopUrls(10).forEach(s -> System.out.println(s));
-
     }
 }
