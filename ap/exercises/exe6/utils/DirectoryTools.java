@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public final class DirectoryTools {
-
     private DirectoryTools() {
         throw new AssertionError("Cannot instantiate utility class");
     }
@@ -56,7 +55,8 @@ public final class DirectoryTools {
             for (File file : dirContents) {
                 if (file.isFile()) {
                     files.add(file);
-                } else if (file.isDirectory()) {
+                }
+                else if (file.isDirectory()) {
                     collectFilesRecursively(file, files);
                 }
             }

@@ -7,12 +7,12 @@ import java.net.URL;
 import java.util.List;
 
 public class HtmlFileManager {
-    private String saveFileBasePath;
+    private String htmlFileBasePath;
     private static int saveCounter = 0;
 
-    public HtmlFileManager(String saveFileBasePath) {
-        this.saveFileBasePath = saveFileBasePath;
-        DirectoryTools.createDirectory(saveFileBasePath);
+    public HtmlFileManager(String htmlFileBasePath) {
+        this.htmlFileBasePath = htmlFileBasePath;
+        DirectoryTools.createDirectory(htmlFileBasePath);
     }
 
     public void save(List<String> lines, String url) {
@@ -40,9 +40,9 @@ public class HtmlFileManager {
             URL parsedUrl = new URL(url);
             String host = parsedUrl.getHost();
             String path = parsedUrl.getPath();
-
             String baseDomain = "znu.ac.ir";
             String subDomain = "";
+
             if (host.endsWith(baseDomain)) {
                 String prefix = host.substring(0, host.length() - baseDomain.length());
                 if (prefix.length() > 0 && prefix.endsWith(".")) {
@@ -51,23 +51,22 @@ public class HtmlFileManager {
                 }
             }
 
-            StringBuilder dirPath = new StringBuilder(saveFileBasePath);
+            StringBuilder dirPath = new StringBuilder(htmlFileBasePath);
             if (!subDomain.isEmpty()) {
                 dirPath.append("/").append(subDomain);
             }
 
             if (path != null && !path.isEmpty() && !path.equals("/")) {
-                // Remove leading and trailing slashes
+                // reemove leading and trailing slashes
                 path = path.replaceAll("^/+|/+$", "");
                 if (!path.isEmpty()) {
                     dirPath.append("/").append(path.substring(0, path.lastIndexOf("/") > 0 ? path.lastIndexOf("/") : path.length()));
                 }
             }
 
-            // Create directories
             String fullDirPath = dirPath.toString();
             DirectoryTools.createDirectory(fullDirPath);
-            // Construct file name
+
             String fileName = path != null && path.lastIndexOf("/") < path.length() - 1
                     ? path.substring(path.lastIndexOf("/") + 1)
                     : "index";
@@ -79,7 +78,7 @@ public class HtmlFileManager {
         }
         catch (Exception e) {
             System.out.println("Error constructing save path for URL " + url + ": " + e.getMessage());
-            return saveFileBasePath + "/" + saveCounter + ".html";
+            return htmlFileBasePath + "/" + saveCounter + ".html";
         }
     }
 }

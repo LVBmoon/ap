@@ -15,12 +15,14 @@ public class HtmlParser {
     public static String getFirstUrl(String htmlLine) {
         String url = null;
         int startIndex = htmlLine.indexOf("href=\"");
+
         if (startIndex >= 0) {
             try {
                 int hrefLength = "href=\"".length();
                 int endIndex = htmlLine.indexOf("\"", startIndex + hrefLength);
                 url = htmlLine.substring(startIndex + hrefLength, endIndex);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 System.out.println("Error parsing URL: " + e.getMessage());
             }
         }
@@ -28,8 +30,7 @@ public class HtmlParser {
     }
 
     private static List<String> getAllUrlsFromHtmlLinesStream(Stream<String> htmlLinesStream) throws IOException {
-        List<String> urls = htmlLinesStream
-                .flatMap(line -> {
+        List<String> urls = htmlLinesStream.flatMap(line -> {
                     List<String> lineUrls = new ArrayList<>();
                     Pattern pattern = Pattern.compile("href=[\"'](.*?)['\"]");
                     Matcher matcher = pattern.matcher(line);
@@ -37,9 +38,7 @@ public class HtmlParser {
                         lineUrls.add(matcher.group(1));
                     }
                     return lineUrls.stream();
-                })
-                .filter(s -> s != null)
-                .collect(Collectors.toList());
+                }).filter(s -> s != null).collect(Collectors.toList());
         return urls;
     }
 
@@ -54,6 +53,7 @@ public class HtmlParser {
     public static List<String> getImageUrlsFromList(List<String> htmlLines) {
         List<String> imageUrls = new ArrayList<>();
         Pattern pattern = Pattern.compile("<img\\s+[^>]*src=[\"']([^\"']+)[\"']");
+
         for (String line : htmlLines) {
             Matcher matcher = pattern.matcher(line);
             while (matcher.find()) {
@@ -61,5 +61,18 @@ public class HtmlParser {
             }
         }
         return imageUrls;
+    }
+
+    public static List<String> getMP3UrlsFromList(List<String> htmlLines) {
+        List<String> mp3Urls = new ArrayList<>();
+        Pattern pattern = Pattern.compile("href=[\"']([^\"']+\\.mp3)[\"']");
+
+        for (String line : htmlLines) {
+            Matcher matcher = pattern.matcher(line);
+            while (matcher.find()) {
+                mp3Urls.add(matcher.group(1));
+            }
+        }
+        return mp3Urls;
     }
 }

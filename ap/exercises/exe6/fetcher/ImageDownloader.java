@@ -9,7 +9,6 @@ import java.nio.file.StandardCopyOption;
 
 public class ImageDownloader {
     public static void downloadImage(String imageUrl, String outputPath) throws IOException {
-        // Validate inputs
         if (imageUrl == null || imageUrl.trim().isEmpty()) {
             throw new IllegalArgumentException("Image URL cannot be null or empty");
         }
@@ -21,11 +20,11 @@ public class ImageDownloader {
         try (InputStream in = url.openStream()) {
             Path output = Paths.get(outputPath);
             try {
-                // Create parent directories if they don't exist
                 Files.createDirectories(output.getParent());
-                // Download and save the file
             }
-            catch (Exception e){}
+            catch (Exception e){
+                System.out.println("Failed to create directory: " + outputPath);
+            }
             Files.copy(in, output, StandardCopyOption.REPLACE_EXISTING);
         }
     }
@@ -35,13 +34,12 @@ public class ImageDownloader {
         try {
             String imageUrl = "https://www.znu.ac.ir/files/uploaded/news-pic/stories/thumbsVertical-450-600/pr-132-pr-entesab404-03-04.jpg";
             String saveFileAddress = "fetched_images/test.jpg";
-
-
             System.out.println("Downloading image from: " + imageUrl);
             downloadImage(imageUrl, saveFileAddress);
             System.out.println("Image successfully saved to: " + saveFileAddress);
 
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.err.println("Failed to download image: " + e.getMessage());
             e.printStackTrace();
         }
