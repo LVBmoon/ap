@@ -33,7 +33,8 @@ public final class DirectoryTools {
                 Files.createDirectories(path);
             }
             return true;
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             System.err.println("Directory creation failed: " + e.getMessage());
             return false;
         }
@@ -45,15 +46,21 @@ public final class DirectoryTools {
             throw new IllegalArgumentException("Path is not a directory: " + directoryPath);
         }
         List<File> files = new ArrayList<>();
+        collectFilesRecursively(dir, files);
+        return files;
+    }
+
+    private static void collectFilesRecursively(File dir, List<File> files) {
         File[] dirContents = dir.listFiles();
         if (dirContents != null) {
             for (File file : dirContents) {
                 if (file.isFile()) {
                     files.add(file);
+                } else if (file.isDirectory()) {
+                    collectFilesRecursively(file, files);
                 }
             }
         }
-        return files;
     }
 
     public static List<String> getFilesAbsolutePathInDirectory(String directoryPath) {

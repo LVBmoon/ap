@@ -25,19 +25,19 @@ public class DomainHtmlScraper {
     private String resolveUrl(String baseUrl, String relativeUrl) {
         try {
             return new URL(new URL(baseUrl), relativeUrl).toString();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             return null;
         }
     }
 
     public void start(String savePath) throws IOException {
         PrintWriter imageWriter = new PrintWriter(savePath + "/images.txt");
-
         List<String> htmlLines = HtmlFetcher.fetchHtml(domainAddress);
-        htmlFileManager.save(htmlLines);
+        htmlFileManager.save(htmlLines, domainAddress);
         visited.add(domainAddress);
-
         List<String> imageUrls = HtmlParser.getImageUrlsFromList(htmlLines);
+
         for (String imageUrl : imageUrls) {
             String resolvedImageUrl = resolveUrl(domainAddress, imageUrl);
             if (resolvedImageUrl != null) {
@@ -47,6 +47,7 @@ public class DomainHtmlScraper {
 
         List<String> urls = HtmlParser.getAllUrlsFromList(htmlLines);
         Set<String> validUrls = new HashSet<>();
+
         for (String url : urls) {
             String resolvedUrl = resolveUrl(domainAddress, url);
             if (resolvedUrl != null && resolvedUrl.contains("znu.ac.ir")) {
@@ -63,9 +64,9 @@ public class DomainHtmlScraper {
             counter++;
             try {
                 htmlLines = HtmlFetcher.fetchHtml(url);
-                htmlFileManager.save(htmlLines);
-
+                htmlFileManager.save(htmlLines, url);
                 imageUrls = HtmlParser.getImageUrlsFromList(htmlLines);
+
                 for (String imageUrl : imageUrls) {
                     String resolvedImageUrl = resolveUrl(url, imageUrl);
                     if (resolvedImageUrl != null) {
@@ -75,6 +76,7 @@ public class DomainHtmlScraper {
 
                 urls = HtmlParser.getAllUrlsFromList(htmlLines);
                 validUrls.clear();
+
                 for (String nextUrl : urls) {
                     String resolvedUrl = resolveUrl(url, nextUrl);
                     if (resolvedUrl != null && resolvedUrl.contains("znu.ac.ir")) {
@@ -82,7 +84,8 @@ public class DomainHtmlScraper {
                     }
                 }
                 queue.addAll(validUrls);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 System.out.println("Error fetching " + url + ": " + e.getMessage());
             }
             System.out.println("[" + counter + "] " + url + " fetched and saved (queue size: " + queue.size() + ")");
