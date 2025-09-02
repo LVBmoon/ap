@@ -18,13 +18,17 @@ public class StudentMenu extends Menu {
         while (true) {
             System.out.println("\n=== Student Menu ===");
             System.out.println("   1. Register");
-            System.out.println("   2. Exit");
+            System.out.println("   2. Login");
+            System.out.println("   3. Exit");
             int choice = inputProcessor.getIntInput("Please enter choice: ");
             switch (choice) {
                 case 1:
                     register();
                     break;
                 case 2:
+                    login();
+                    break;
+                case 3:
                     return;
                 default:
                     System.out.println("Invalid choice.");
@@ -60,5 +64,22 @@ public class StudentMenu extends Menu {
         } catch (IllegalArgumentException e) {
             System.out.println("Registration failed: " + e.getMessage());
         }
+    }
+
+    private void login() {
+        if (library.getStudents().isEmpty()) {
+            System.out.println("No students loaded. Please register or check data files (students.txt).");
+            return;
+        }
+        String username = inputProcessor.getStringInput("Enter username: ");
+        String password = inputProcessor.getStringInput("Enter password: ");
+        for (Student s : library.getStudents()) {
+            if (s.getUsername().equals(username) && s.checkPassword(password)) {
+                student = s;
+                System.out.println("Login successful.");
+                return;
+            }
+        }
+        System.out.println("Invalid username or password.");
     }
 }
