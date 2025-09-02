@@ -3,7 +3,9 @@ package ap.exercises.finalTerm_project.version1.menu;
 import ap.exercises.finalTerm_project.version1.core.Library;
 import ap.exercises.finalTerm_project.version1.data.DataStorage;
 import ap.exercises.finalTerm_project.version1.data.InputProcessor;
+import ap.exercises.finalTerm_project.version1.model.Book;
 import ap.exercises.finalTerm_project.version1.model.Student;
+import java.util.ArrayList;
 
 public class StudentMenu extends Menu {
     private Student student;
@@ -19,7 +21,8 @@ public class StudentMenu extends Menu {
             System.out.println("\n=== Student Menu ===");
             System.out.println("   1. Register");
             System.out.println("   2. Login");
-            System.out.println("   3. Exit");
+            System.out.println("   3. Search Books");
+            System.out.println("   4. Exit");
             int choice = inputProcessor.getIntInput("Please enter choice: ");
             switch (choice) {
                 case 1:
@@ -29,6 +32,9 @@ public class StudentMenu extends Menu {
                     login();
                     break;
                 case 3:
+                    searchBooks();
+                    break;
+                case 4:
                     return;
                 default:
                     System.out.println("Invalid choice.");
@@ -81,5 +87,20 @@ public class StudentMenu extends Menu {
             }
         }
         System.out.println("Invalid username or password.");
+    }
+
+    private void searchBooks() {
+        String title = inputProcessor.getStringInput("Enter title (or leave empty): ");
+        String author = inputProcessor.getStringInput("Enter author (or leave empty): ");
+        String year = inputProcessor.getStringInput("Enter publication year (or leave empty): ");
+        ArrayList<Book> results = library.searchBooks(title, author, year);
+        if (results.isEmpty()) {
+            System.out.println("No books found.");
+        } else {
+            System.out.println("Search results:");
+            for (Book book : results) {
+                System.out.println(book);
+            }
+        }
     }
 }
