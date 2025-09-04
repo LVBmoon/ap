@@ -4,6 +4,7 @@ import src.selfTraining.version0.core.Library;
 import src.selfTraining.version0.data.DataStorage;
 import src.selfTraining.version0.data.InputProcessor;
 import src.selfTraining.version0.menu.Menu;
+import src.selfTraining.version0.model.Book;
 import src.selfTraining.version0.model.Librarian;
 
 public class LibrarianMenu extends Menu {
@@ -44,6 +45,12 @@ public class LibrarianMenu extends Menu {
                 System.out.println("   10. Logout");
                 int choice = inputProcessor.getIntInput("Please enter choice: ");
                 switch (choice) {
+                    case 1:
+                        editPersonalInfo();
+                        break;
+                    case 2:
+                        addNewBook();
+                        break;
                     case 8:
                         changePassword();
 
@@ -80,6 +87,42 @@ public class LibrarianMenu extends Menu {
             System.out.println("\nPassword changed successfully!");
         } catch (IllegalArgumentException e) {
             System.out.println("\nPassword change failed: " + e.getMessage());
+        }
+    }
+
+    private void editPersonalInfo() {
+        String phoneNumber = inputProcessor.getStringInput("Enter phone number (e.g. +989123456789, or press enter to skip): ");
+        String address = inputProcessor.getStringInput("Enter address (or press enter to skip): ");
+        String educationLevel = inputProcessor.getStringInput("Enter education level (e.g. BSc, or press enter to skip): ");
+        try {
+            librarian.setPhoneNumber(phoneNumber);
+            librarian.setAddress(address);
+            if (!educationLevel.isEmpty()) {
+                librarian.setEducationLevel(educationLevel);
+            }
+            System.out.println("\nPersonal info updated.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("\nFailed to update info: " + e.getMessage());
+        }
+    }
+
+    private void addNewBook() {
+        String bookId = inputProcessor.getStringInput("Enter book ID: ");
+        if (library.findBookByBookId(bookId) != null) {
+            System.out.println("Book ID already exists!");
+            return;
+        }
+        String title = inputProcessor.getStringInput("Enter book title: ");
+        String author = inputProcessor.getStringInput("Enter author: ");
+        int year = inputProcessor.getIntInput("Enter publication year: ");
+        int pages = inputProcessor.getIntInput("Enter number of pages: ");
+        try {
+            Book book = new Book(bookId, title, author, year, pages);
+            library.addBook(book);
+            librarian.incrementRegisteredBooks();
+            System.out.println("\nBook added successfully.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("\nFailed to add book: " + e.getMessage());
         }
     }
 }
