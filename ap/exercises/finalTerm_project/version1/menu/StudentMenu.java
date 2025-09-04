@@ -207,6 +207,36 @@ public class StudentMenu extends Menu {
         }
     }
 
+
+    private void viewActiveBorrows() {
+        boolean found = false;
+        System.out.println("Active Borrows:");
+        for (ap.exercises.finalTerm_project.version1.core.Borrow borrow : library.getBorrows()) {
+            if (borrow.getStudent().getStudentId().equals(student.getStudentId()) && !borrow.isReturned()) {
+                System.out.println(borrow);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No active borrows.");
+        }
+    }
+
+    private void viewBorrowHistory() {
+        boolean found = false;
+        System.out.println("Borrow History:");
+        for (ap.exercises.finalTerm_project.version1.core.Borrow borrow : library.getBorrows()) {
+            if (borrow.getStudent().getStudentId().equals(student.getStudentId())) {
+                System.out.println(borrow);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No borrow history.");
+        }
+    }
+
+
     private void changePassword() {
         String currentPass = inputProcessor.getStringInput("Enter current password: ");
         if (!student.checkPassword(currentPass)) {

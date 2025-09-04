@@ -70,6 +70,9 @@ public class Book {
         return publicationYear;
     }
 
+    public int getPageCount() {
+        return pageCount;
+    }
 
     public boolean isAvailable() {
         return isAvailable;
