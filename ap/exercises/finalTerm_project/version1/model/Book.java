@@ -5,19 +5,23 @@ public class Book {
     private String title;
     private String author;
     private int publicationYear;
-    private boolean isBorrowed;
+    private int pageCount;
+    private boolean isAvailable;
+    private int borrowCount;
 
-    public Book(String bookId, String title, String author, int publicationYear) {
+    public Book(String bookId, String title, String author, int publicationYear, int pageCount) {
         setBookId(bookId);
         setTitle(title);
         setAuthor(author);
         setPublicationYear(publicationYear);
-        this.isBorrowed = false;
+        setPageCount(pageCount);
+        this.isAvailable = true;
+        this.borrowCount = 0;
     }
 
     public void setBookId(String bookId) {
         if (bookId == null || bookId.trim().isEmpty()) {
-            throw new IllegalArgumentException("Book ID cannot be empty!");
+            throw new IllegalArgumentException("Book ID cannot be empty! fill it out :)");
         }
         this.bookId = bookId.trim();
     }
@@ -43,8 +47,11 @@ public class Book {
         this.publicationYear = publicationYear;
     }
 
-    public void setBorrowed(boolean borrowed) {
-        this.isBorrowed = borrowed;
+    public void setPageCount(int pageCount) {
+        if (pageCount <= 1) {
+            throw new IllegalArgumentException("Page count must be more than one!");
+        }
+        this.pageCount = pageCount;
     }
 
     public String getBookId() {
@@ -63,13 +70,27 @@ public class Book {
         return publicationYear;
     }
 
-    public boolean isBorrowed() {
-        return isBorrowed;
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
+    public int getBorrowCount() {
+        return borrowCount;
+    }
+
+    public void incrementBorrowCount() {
+        borrowCount++;
     }
 
     @Override
     public String toString() {
-        return "Book ID: " + bookId + ", Title: " + title + ", Author: " + author +
-                ", Year: " + publicationYear + ", Status: " + (isBorrowed ? "Borrowed" : "Available");
+        return title + " (ID: " + bookId + ") by " + author + " (" + publicationYear + ") - " +
+                pageCount + " pages - " + (isAvailable ? "Available" : "Borrowed");
     }
+
 }

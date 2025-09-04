@@ -2,23 +2,27 @@ package ap.exercises.finalTerm_project.version1.model;
 
 import ap.exercises.finalTerm_project.version1.core.Library;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
-public class Student extends User {
+public class Student extends ap.exercises.finalTerm_project.version1.model.User {
     private String studentId;
     private String fieldOfStudy;
     private LocalDate joinDate;
     private String username;
     private String password;
+    private ArrayList<ap.exercises.finalTerm_project.version1.model.Book> borrowedBooks;
     private boolean isActive;
-    private Library library;
+    private ap.exercises.finalTerm_project.version1.core.Library library;
 
-    public Student(String firstName, String lastName, String studentId, String fieldOfStudy, String username, String password, Library library) {
+    public Student(String firstName, String lastName, String studentId, String fieldOfStudy, String username,
+                   String password, ap.exercises.finalTerm_project.version1.core.Library library) {
         super(firstName, lastName);
         setStudentId(studentId);
         setFieldOfStudy(fieldOfStudy);
         setUsername(username);
         setPassword(password);
         this.joinDate = LocalDate.now();
+        this.borrowedBooks = new ArrayList<>();
         this.isActive = true;
         this.library = library;
     }
@@ -55,6 +59,13 @@ public class Student extends User {
         this.isActive = active;
     }
 
+    public void setJoinDate(LocalDate joinDate) {
+        if (joinDate == null || joinDate.isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("Invalid join date!");
+        }
+        this.joinDate = joinDate;
+    }
+
     public String getStudentId() {
         return studentId;
     }
@@ -75,12 +86,47 @@ public class Student extends User {
         return password;
     }
 
+    public ArrayList<ap.exercises.finalTerm_project.version1.model.Book> getBorrowedBooks() {
+        return new ArrayList<>(borrowedBooks);
+    }
+
     public boolean isActive() {
         return isActive;
     }
 
     public boolean checkPassword(String password) {
         return this.password.equals(password);
+    }
+
+    public boolean borrowBook(ap.exercises.finalTerm_project.version1.model.Book book) {
+        if (!isActive) {
+            return false;
+        }
+        if (borrowedBooks.size() >= 5) {
+            return false;
+        }
+        if (!book.isAvailable()) {
+            return false;
+        }
+        borrowedBooks.add(book);
+        book.setAvailable(false);
+        book.incrementBorrowCount();
+        return true;
+    }
+
+    public boolean returnBook(ap.exercises.finalTerm_project.version1.model.Book book) {
+        for (ap.exercises.finalTerm_project.version1.model.Book b : borrowedBooks) {
+            if (b.getBookId().equalsIgnoreCase(book.getBookId())) {
+                borrowedBooks.remove(b);
+                book.setAvailable(true);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addBorrowedBookFromStorage(Book book) {
+        borrowedBooks.add(book);
     }
 
     @Override

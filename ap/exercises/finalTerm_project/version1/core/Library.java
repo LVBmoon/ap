@@ -2,17 +2,31 @@ package ap.exercises.finalTerm_project.version1.core;
 
 import ap.exercises.finalTerm_project.version1.model.Book;
 import ap.exercises.finalTerm_project.version1.model.Student;
+import ap.exercises.finalTerm_project.version1.model.Librarian;
+import ap.exercises.finalTerm_project.version1.core.Borrow;
+import ap.exercises.finalTerm_project.version1.core.BorrowRequest;
+
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Library {
     private String name;
     private ArrayList<Student> students;
     private ArrayList<Book> books;
+    private ArrayList<ap.exercises.finalTerm_project.version1.model.Librarian> librarians;
+    private ArrayList<Borrow> borrows;
+    private ArrayList<BorrowRequest> borrowRequests;
 
     public Library(String name) {
         setName(name);
         this.students = new ArrayList<>();
         this.books = new ArrayList<>();
+        this.librarians = new ArrayList<>();
+        this.borrows = new ArrayList<>();
+        this.borrowRequests = new ArrayList<>();
+        librarians.add(new ap.exercises.finalTerm_project.version1.model.Librarian("LVB", "moon", "L001", "LVB!", "codingIsFun88", "nothing yet"));
+        librarians.add(new ap.exercises.finalTerm_project.version1.model.Librarian("Dervish", "Grady", "L002", "TheGreatMoreed", "deathIsNotTheEnding", "unknown"));
+        librarians.add(new ap.exercises.finalTerm_project.version1.model.Librarian("Lelouch", "Lamperouge", "L003", "TheKing", "CodeGeass", "High School Student"));
     }
 
     public void setName(String name) {
@@ -46,6 +60,21 @@ public class Library {
         for (Student student : students) {
             if (student.getStudentId().equals(studentId)) {
                 return student;
+            }
+        }
+        return null;
+    }
+
+    public Librarian getRandomLibrarian() {
+        Random random = new Random();
+        int index = random.nextInt(librarians.size());
+        return librarians.get(index);
+    }
+
+    public ap.exercises.finalTerm_project.version1.model.Book findBookByBookId(String bookId) {
+        for (ap.exercises.finalTerm_project.version1.model.Book book : books) {
+            if (book.getBookId().equalsIgnoreCase(bookId)) {
+                return book;
             }
         }
         return null;
