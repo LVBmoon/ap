@@ -51,6 +51,9 @@ public class LibrarianMenu extends Menu {
                     case 2:
                         addNewBook();
                         break;
+                    case 3:
+                        editBook();
+                        break;
                     case 8:
                         changePassword();
 
@@ -125,5 +128,29 @@ public class LibrarianMenu extends Menu {
             System.out.println("\nFailed to add book: " + e.getMessage());
         }
     }
+
+    private void editBook() {
+        String bookId = inputProcessor.getStringInput("Enter book ID to edit: ");
+        Book book = library.findBookByBookId(bookId);
+        if (book == null) {
+            System.out.println("No book found with that ID.");
+            return;
+        }
+        System.out.println("Current Book Details: " + book);
+        String title = inputProcessor.getStringInput("Enter new title (or press enter to keep current): ");
+        String author = inputProcessor.getStringInput("Enter new author (or press enter to keep current): ");
+        String yearStr = inputProcessor.getStringInput("Enter new publication year (or press enter to keep current): ");
+        String pagesStr = inputProcessor.getStringInput("Enter new page count (or press enter to keep current): ");
+        try {
+            if (!title.isEmpty()) book.setTitle(title);
+            if (!author.isEmpty()) book.setAuthor(author);
+            if (!yearStr.isEmpty()) book.setPublicationYear(Integer.parseInt(yearStr));
+            if (!pagesStr.isEmpty()) book.setPageCount(Integer.parseInt(pagesStr));
+            System.out.println("Book updated successfully.");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Failed to update book: " + e.getMessage());
+        }
+    }
+
 }
 
