@@ -6,7 +6,11 @@ import ap.exercises.finalTerm_project.version1.data.InputProcessor;
 import ap.exercises.finalTerm_project.version1.model.Librarian;
 import ap.exercises.finalTerm_project.version1.model.LibraryManager;
 import ap.exercises.finalTerm_project.version1.core.Borrow;
+import ap.exercises.finalTerm_project.version1.model.Book;
+import ap.exercises.finalTerm_project.version1.model.Student;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class ManagerMenu extends Menu {
@@ -56,13 +60,13 @@ public class ManagerMenu extends Menu {
                         viewLibrarianStatistics();
                         break;
                     case 4:
-                        System.out.println("NOT IMPLEMENTED");
+                        viewMostBorrowedBooks();
                         break;
                     case 5:
                         viewBorrowStatistics();
                         break;
                     case 6:
-                        System.out.println("NOT IMPLEMENTED");
+                        viewTopDelayedStudents();
                         break;
                     case 7:
                         changePassword();
@@ -159,5 +163,37 @@ public class ManagerMenu extends Menu {
         System.out.println("Total Borrow Requests: " + library.getTotalBorrowRequests());
         System.out.println("Total Approved Borrows: " + library.getTotalApprovedBorrows());
         System.out.println("Average Borrow Days: " + String.format("%.2f", library.getAverageBorrowDays()));
+    }
+
+    private void viewMostBorrowedBooks() {
+        List<Book> topBooks = library.getMostBorrowedBooks(10);
+        if (topBooks.isEmpty()) {
+            System.out.println("No books borrowed yet!");
+        } else {
+            System.out.println("Top 10 Most Borrowed Books:");
+            for (Book book : topBooks) {
+                System.out.println(book + ", Borrow Count: " + book.getBorrowCount());
+            }
+        }
+    }
+
+    private void viewTopDelayedStudents() {
+        List<Student> topDelayed = library.getTopDelayedStudents(10);
+        if (topDelayed.isEmpty()) {
+            System.out.println("No delayed borrows found.");
+        } else {
+            System.out.println("Top 10 Students with Most Delay Days:");
+            for (Student student : topDelayed) {
+                long totalDelay = 0;
+                for (Borrow borrow : library.getBorrows()) {
+                    if (borrow.getStudent().getStudentId().equals(student.getStudentId()) && borrow.isOverdue()) {
+                        LocalDate endDate = borrow.isReturned() ? borrow.getReturnDate() : LocalDate.now();
+                        totalDelay += ChronoUnit.DAYS.between(borrow.getDueDate(), endDate);
+                    }
+                }
+                System.out.println(student.getFirstName() + " " + student.getLastName() +
+                        " (" + student.getStudentId() + ") - Total Delay Days: " + totalDelay);
+            }
+        }
     }
 }
