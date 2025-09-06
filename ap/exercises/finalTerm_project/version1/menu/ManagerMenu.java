@@ -5,6 +5,9 @@ import ap.exercises.finalTerm_project.version1.data.DataStorage;
 import ap.exercises.finalTerm_project.version1.data.InputProcessor;
 import ap.exercises.finalTerm_project.version1.model.Librarian;
 import ap.exercises.finalTerm_project.version1.model.LibraryManager;
+import ap.exercises.finalTerm_project.version1.core.Borrow;
+
+import java.util.List;
 
 public class ManagerMenu extends Menu {
     private LibraryManager manager;
@@ -47,7 +50,7 @@ public class ManagerMenu extends Menu {
                         addNewLibrarian();
                         break;
                     case 2:
-                        System.out.println("NOT IMPLEMENTED");
+                        viewOverdueBorrows();
                         break;
                     case 3:
                         viewLibrarianStatistics();
@@ -56,7 +59,7 @@ public class ManagerMenu extends Menu {
                         System.out.println("NOT IMPLEMENTED");
                         break;
                     case 5:
-                        System.out.println("NOT IMPLEMENTED");
+                        viewBorrowStatistics();
                         break;
                     case 6:
                         System.out.println("NOT IMPLEMENTED");
@@ -137,5 +140,24 @@ public class ManagerMenu extends Menu {
                     ", Borrows Received: " + librarian.getBorrowsReceived() +
                     ", Total Processed: " + librarian.getProcessedLoans());
         }
+    }
+
+    private void viewOverdueBorrows() {
+        List<Borrow> overdue = library.getOverdueBorrows();
+        if (overdue.isEmpty()) {
+            System.out.println("No overdue borrows.");
+        } else {
+            System.out.println("Overdue Borrows:");
+            for (Borrow borrow : overdue) {
+                System.out.println(borrow);
+            }
+        }
+    }
+
+    private void viewBorrowStatistics() {
+        System.out.println("Borrow Statistics:");
+        System.out.println("Total Borrow Requests: " + library.getTotalBorrowRequests());
+        System.out.println("Total Approved Borrows: " + library.getTotalApprovedBorrows());
+        System.out.println("Average Borrow Days: " + String.format("%.2f", library.getAverageBorrowDays()));
     }
 }
