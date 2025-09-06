@@ -12,7 +12,7 @@ import ap.exercises.finalTerm_project.version1.core.BorrowRequest;
 import ap.exercises.finalTerm_project.version1.core.Library;
 import ap.exercises.finalTerm_project.version1.model.Book;
 import ap.exercises.finalTerm_project.version1.model.Librarian;
-import ap.exercises.finalTerm_project.version1.model.LibraryManager;
+//import ap.exercises.finalTerm_project.version1.model.LibraryManager;
 import ap.exercises.finalTerm_project.version1.model.Student;
 
 
@@ -222,7 +222,7 @@ public class DataStorage {
                     if (parts.length > 7 && !parts[7].isEmpty()) {
                         String[] borrowedBookIds = parts[7].split("\\|");
                         for (String bookId : borrowedBookIds) {
-                            src.selfTraining.version0.model.Book book = library.findBookByBookId(unescapeField(bookId));
+                            Book book = library.findBookByBookId(unescapeField(bookId));
                             if (book != null) {
                                 student.addBorrowedBookFromStorage(book);
                             } else {
@@ -255,11 +255,11 @@ public class DataStorage {
                 String[] parts = line.split(",");
                 if (parts.length >= 6) {
                     try {
-                        src.selfTraining.version0.model.Book book = library.findBookByBookId(unescapeField(parts[0]));
-                        src.selfTraining.version0.model.Student student = library.findStudentByStudentId(parts[1]);
-                        src.selfTraining.version0.model.Librarian issuedBy = library.findLibrarianByEmployeeId(parts[2]);
+                        Book book = library.findBookByBookId(unescapeField(parts[0]));
+                        Student student = library.findStudentByStudentId(parts[1]);
+                        Librarian issuedBy = library.findLibrarianByEmployeeId(parts[2]);
                         if (book != null && student != null && issuedBy != null) {
-                            src.selfTraining.version0.core.Borrow borrow = new Borrow(book, student, issuedBy, LocalDate.parse(parts[3]));
+                            Borrow borrow = new Borrow(book, student, issuedBy, LocalDate.parse(parts[3]));
                             if (Boolean.parseBoolean(parts[5]) && parts.length >= 8) {
                                 src.selfTraining.version0.model.Librarian receivedBy = library.findLibrarianByEmployeeId(parts[6]);
                                 if (receivedBy != null) {

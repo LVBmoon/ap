@@ -15,11 +15,11 @@ import java.util.Random;
 
 public class Library {
     private String name;
-    private ArrayList<ap.exercises.finalTerm_project.version1.model.Book> books;
-    private ArrayList<ap.exercises.finalTerm_project.version1.model.Student> students;
-    private ArrayList<ap.exercises.finalTerm_project.version1.model.Librarian> librarians;
-    private ArrayList<ap.exercises.finalTerm_project.version1.core.Borrow> borrows;
-    private ArrayList<ap.exercises.finalTerm_project.version1.core.BorrowRequest> borrowRequests;
+    private ArrayList<Book> books;
+    private ArrayList<Student> students;
+    private ArrayList<Librarian> librarians;
+    private ArrayList<Borrow> borrows;
+    private ArrayList<BorrowRequest> borrowRequests;
     private LibraryManager manager;
 
     public Library(String name, LibraryManager manager) {
@@ -30,9 +30,9 @@ public class Library {
         this.librarians = new ArrayList<>();
         this.borrows = new ArrayList<>();
         this.borrowRequests = new ArrayList<>();
-        librarians.add(new ap.exercises.finalTerm_project.version1.model.Librarian("LVB", "moon", "L001", "LVB!", "codingIsFun88", "nothing yet"));
-        librarians.add(new ap.exercises.finalTerm_project.version1.model.Librarian("Dervish", "Grady", "L002", "TheGreatMoreed", "deathIsNotTheEnding", "unknown"));
-        librarians.add(new ap.exercises.finalTerm_project.version1.model.Librarian("Lelouch", "Lamperouge", "L003", "TheKing", "CodeGeass", "High School Student"));
+        librarians.add(new Librarian("LVB", "moon", "L001", "LVB!", "codingIsFun88", "nothing yet"));
+        librarians.add(new Librarian("Dervish", "Grady", "L002", "TheGreatMoreed", "deathIsNotTheEnding", "unknown"));
+        librarians.add(new Librarian("Lelouch", "Lamperouge", "L003", "TheKing", "CodeGeass", "High School Student"));
     }
 
     public void setName(String name) {
@@ -46,23 +46,23 @@ public class Library {
         return name;
     }
 
-    public List<ap.exercises.finalTerm_project.version1.model.Book> getBooks() {
+    public List<Book> getBooks() {
         return new ArrayList<>(books);
     }
 
-    public List<ap.exercises.finalTerm_project.version1.model.Student> getStudents() {
+    public List<Student> getStudents() {
         return new ArrayList<>(students);
     }
 
-    public List<ap.exercises.finalTerm_project.version1.model.Librarian> getLibrarians() {
+    public List<Librarian> getLibrarians() {
         return new ArrayList<>(librarians);
     }
 
-    public List<ap.exercises.finalTerm_project.version1.core.Borrow> getBorrows() {
+    public List<Borrow> getBorrows() {
         return new ArrayList<>(borrows);
     }
 
-    public List<ap.exercises.finalTerm_project.version1.core.BorrowRequest> getBorrowRequests() {
+    public List<BorrowRequest> getBorrowRequests() {
         return new ArrayList<>(borrowRequests);
     }
 
@@ -70,32 +70,32 @@ public class Library {
         return manager;
     }
 
-    public boolean addBook(ap.exercises.finalTerm_project.version1.model.Book book) {
+    public boolean addBook(Book book) {
         if (findBookByBookId(book.getBookId()) != null) {
             return false;
         }
         return books.add(book);
     }
 
-    public boolean addStudent(ap.exercises.finalTerm_project.version1.model.Student student) {
+    public boolean addStudent(Student student) {
         return students.add(student);
     }
 
-    public boolean addLibrarian(ap.exercises.finalTerm_project.version1.model.Librarian librarian) {
+    public boolean addLibrarian(Librarian librarian) {
         return librarians.add(librarian);
     }
 
-    public boolean addBorrow(ap.exercises.finalTerm_project.version1.core.Borrow borrow) {
+    public boolean addBorrow(Borrow borrow) {
         return borrows.add(borrow);
     }
 
-    public boolean addBorrowRequest(ap.exercises.finalTerm_project.version1.core.BorrowRequest request) {
+    public boolean addBorrowRequest(BorrowRequest request) {
         return borrowRequests.add(request);
     }
 
-    public List<ap.exercises.finalTerm_project.version1.model.Book> searchBooks(String title, Integer year, String author) {
-        ArrayList<ap.exercises.finalTerm_project.version1.model.Book> results = new ArrayList<>();
-        for (ap.exercises.finalTerm_project.version1.model.Book book : books) {
+    public List<Book> searchBooks(String title, Integer year, String author) {
+        ArrayList<Book> results = new ArrayList<>();
+        for (Book book : books) {
             boolean match = true;
             if (title != null && !title.isEmpty() && !book.getTitle().toLowerCase().contains(title.toLowerCase())) {
                 match = false;
@@ -113,8 +113,8 @@ public class Library {
         return results;
     }
 
-    public ap.exercises.finalTerm_project.version1.model.Book findBookByBookId(String bookId) {
-        for (ap.exercises.finalTerm_project.version1.model.Book book : books) {
+    public Book findBookByBookId(String bookId) {
+        for (Book book : books) {
             if (book.getBookId().equalsIgnoreCase(bookId)) {
                 return book;
             }
@@ -122,8 +122,8 @@ public class Library {
         return null;
     }
 
-    public ap.exercises.finalTerm_project.version1.model.Book findBookByTitle(String title) {
-        for (ap.exercises.finalTerm_project.version1.model.Book book : books) {
+    public Book findBookByTitle(String title) {
+        for (Book book : books) {
             if (book.getTitle().equalsIgnoreCase(title)) {
                 return book;
             }
@@ -131,8 +131,8 @@ public class Library {
         return null;
     }
 
-    public ap.exercises.finalTerm_project.version1.model.Student findStudentByStudentId(String studentId) {
-        for (ap.exercises.finalTerm_project.version1.model.Student student : students) {
+    public Student findStudentByStudentId(String studentId) {
+        for (Student student : students) {
             if (student.getStudentId().equals(studentId)) {
                 return student;
             }
@@ -140,8 +140,8 @@ public class Library {
         return null;
     }
 
-    public ap.exercises.finalTerm_project.version1.model.Librarian findLibrarianByEmployeeId(String employeeId) {
-        for (ap.exercises.finalTerm_project.version1.model.Librarian librarian : librarians) {
+    public Librarian findLibrarianByEmployeeId(String employeeId) {
+        for (Librarian librarian : librarians) {
             if (librarian.getEmployeeId().equals(employeeId)) {
                 return librarian;
             }
@@ -155,10 +155,10 @@ public class Library {
         return librarians.get(index);
     }
 
-    public List<ap.exercises.finalTerm_project.version1.core.Borrow> getOverdueBorrows() {
-        ArrayList<ap.exercises.finalTerm_project.version1.core.Borrow> overdue = new ArrayList<>();
+    public List<Borrow> getOverdueBorrows() {
+        ArrayList<Borrow> overdue = new ArrayList<>();
         LocalDate today = LocalDate.now();
-        for (ap.exercises.finalTerm_project.version1.core.Borrow borrow : borrows) {
+        for (Borrow borrow : borrows) {
             if (!borrow.isReturned() && borrow.getDueDate().isBefore(today)) {
                 overdue.add(borrow);
             }
@@ -180,7 +180,7 @@ public class Library {
 
     public int getCurrentBorrows() {
         int count = 0;
-        for (ap.exercises.finalTerm_project.version1.core.Borrow borrow : borrows) {
+        for (Borrow borrow : borrows) {
             if (!borrow.isReturned()) {
                 count++;
             }
@@ -194,7 +194,7 @@ public class Library {
 
     public int getTotalApprovedBorrows() {
         int count = 0;
-        for (ap.exercises.finalTerm_project.version1.core.BorrowRequest request : borrowRequests) {
+        for (BorrowRequest request : borrowRequests) {
             if (request.getStatus() == BorrowRequest.RequestStatus.APPROVED && !request.isReturnRequest()) {
                 count++;
             }
@@ -208,7 +208,7 @@ public class Library {
         }
         long totalDays = 0;
         int count = 0;
-        for (ap.exercises.finalTerm_project.version1.core.Borrow borrow : borrows) {
+        for (Borrow borrow : borrows) {
             if (borrow.isReturned()) {
                 totalDays += ChronoUnit.DAYS.between(borrow.getBorrowDate(), borrow.getReturnDate());
                 count++;
@@ -217,13 +217,13 @@ public class Library {
         return count == 0 ? 0.0 : (double) totalDays / count;
     }
 
-    public List<ap.exercises.finalTerm_project.version1.model.Book> getMostBorrowedBooks(int limit) {
-        ArrayList<ap.exercises.finalTerm_project.version1.model.Book> sortedBooks = new ArrayList<>(books);
+    public List<Book> getMostBorrowedBooks(int limit) {
+        ArrayList<Book> sortedBooks = new ArrayList<>(books);
         sortedBooks.sort(Comparator.comparingInt(Book::getBorrowCount).reversed());
         return sortedBooks.subList(0, Math.min(limit, sortedBooks.size()));
     }
 
-    public List<ap.exercises.finalTerm_project.version1.model.Student> getTopDelayedStudents(int limit) {
+    public List<Student> getTopDelayedStudents(int limit) {
         ArrayList<Student> sortedStudents = new ArrayList<>(students);
         sortedStudents.sort((s1, s2) -> {
             long delay1 = 0, delay2 = 0;
@@ -241,5 +241,7 @@ public class Library {
         });
         return sortedStudents.subList(0, Math.min(limit, sortedStudents.size()));
     }
+
+
 
 }

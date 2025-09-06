@@ -7,7 +7,7 @@ import ap.exercises.finalTerm_project.version1.model.Book;
 import ap.exercises.finalTerm_project.version1.model.Librarian;
 import ap.exercises.finalTerm_project.version1.core.Borrow;
 import ap.exercises.finalTerm_project.version1.core.BorrowRequest;
-
+import ap.exercises.finalTerm_project.version1.model.Student;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,9 +62,24 @@ public class LibrarianMenu extends Menu {
                     case 4:
                         reviewBorrowRequests();
                         break;
+                    case 5:
+                        System.out.println("NOT IMPLEMENTED");
+                        break;
+                    case 6:
+                        System.out.println("NOT IMPLEMENTED");
+                        break;
+                    case 7:
+                        viewStudentHistory();
+                        break;
                     case 8:
                         changePassword();
-
+                        break;
+                    case 9:
+                        System.out.println("NOT IMPLEMENTED");
+                        break;
+                    case 10:
+                        librarian = null;
+                        break;
                     default:
                         System.out.println("\nInvalid choice!");
                 }
@@ -214,6 +229,39 @@ public class LibrarianMenu extends Menu {
             System.out.println("Invalid action!");
         }
     }
-
+    private void viewStudentHistory() {
+        String studentId = inputProcessor.getStringInput("Enter student ID: ");
+        Student student = library.findStudentByStudentId(studentId);
+        if (student == null) {
+            System.out.println("Student not found.");
+            return;
+        }
+        boolean found = false;
+        int totalBorrows = 0;
+        int notReturned = 0;
+        int delayed = 0;
+        System.out.println("Borrow History for " + student.getFirstName() + " " + student.getLastName() + ":");
+        for (Borrow borrow : library.getBorrows()) {
+            if (borrow.getStudent().getStudentId().equals(studentId)) {
+                System.out.println(borrow);
+                totalBorrows++;
+                if (!borrow.isReturned()) {
+                    notReturned++;
+                }
+                if (borrow.isOverdue()) {
+                    delayed++;
+                }
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("\nNo borrow history for this student.");
+        } else {
+            System.out.println("\nStatistics:");
+            System.out.println("Total Borrows: " + totalBorrows);
+            System.out.println("Not Returned: " + notReturned);
+            System.out.println("Delayed Returns: " + delayed);
+        }
+    }
 }
 
