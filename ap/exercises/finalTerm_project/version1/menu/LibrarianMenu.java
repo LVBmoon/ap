@@ -1,11 +1,16 @@
 package ap.exercises.finalTerm_project.version1.menu;
 
-import src.selfTraining.version0.core.Library;
-import src.selfTraining.version0.data.DataStorage;
-import src.selfTraining.version0.data.InputProcessor;
-import src.selfTraining.version0.menu.Menu;
-import src.selfTraining.version0.model.Book;
-import src.selfTraining.version0.model.Librarian;
+import ap.exercises.finalTerm_project.version1.core.Library;
+import ap.exercises.finalTerm_project.version1.data.DataStorage;
+import ap.exercises.finalTerm_project.version1.data.InputProcessor;
+import ap.exercises.finalTerm_project.version1.model.Book;
+import ap.exercises.finalTerm_project.version1.model.Librarian;
+import ap.exercises.finalTerm_project.version1.core.Borrow;
+import ap.exercises.finalTerm_project.version1.core.BorrowRequest;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LibrarianMenu extends Menu {
     private Librarian librarian;
@@ -53,6 +58,9 @@ public class LibrarianMenu extends Menu {
                         break;
                     case 3:
                         editBook();
+                        break;
+                    case 4:
+                        reviewBorrowRequests();
                         break;
                     case 8:
                         changePassword();
@@ -149,6 +157,61 @@ public class LibrarianMenu extends Menu {
             System.out.println("Book updated successfully.");
         } catch (IllegalArgumentException e) {
             System.out.println("Failed to update book: " + e.getMessage());
+        }
+    }
+
+    private void reviewBorrowRequests() {
+        List<BorrowRequest> filteredRequests = new ArrayList<>();
+        LocalDate today = LocalDate.now();
+        LocalDate yesterday = today.minusDays(1);
+        for (BorrowRequest request : library.getBorrowRequests()) {
+            if (request.getAssignedLibrarian().getEmployeeId().equals(librarian.getEmployeeId()) &&
+                    request.getStatus() == BorrowRequest.RequestStatus.PENDING && !request.isReturnRequest() &&
+                    (request.getRequestDate().equals(today) || request.getRequestDate().equals(yesterday))) {
+                filteredRequests.add(request);
+            }
+        }
+
+        if (filteredRequests.isEmpty()) {
+            System.out.println("No pending borrow requests for today or yesterday.");
+            return;
+        }
+
+        System.out.println("\nPending Borrow Requests:");
+        for (int i = 0; i < filteredRequests.size(); i++) {
+            System.out.println((i + 1) + ". " + filteredRequests.get(i));
+        }
+
+        int choice = inputProcessor.getIntInput("Enter request number to process (or 0 to cancel): ");
+        if (choice == 0) {
+            return;
+        }
+        if (choice < 1 || choice > filteredRequests.size()) {
+            System.out.println("Invalid request number!");
+            return;
+        }
+
+        BorrowRequest selectedRequest = filteredRequests.get(choice - 1);
+        System.out.println("\nRequest Details: " + selectedRequest);
+        int action = inputProcessor.getIntInput("1. Approve\n2. Reject\nEnter choice: ");
+        if (action == 1) {
+            if (selectedRequest.getStudent().borrowBook(selectedRequest.getBook())) {
+                Borrow borrow = new Borrow(selectedRequest.getBook(), selectedRequest.getStudent(),
+                        librarian, LocalDate.now());
+                library.addBorrow(borrow);
+                selectedRequest.approve();
+                librarian.incrementProcessedLoans();
+                librarian.incrementBorrowsGiven();
+                System.out.println("Borrow request approved.");
+            } else {
+                selectedRequest.reject();
+                System.out.println("Borrow request rejected: Book not available or student limit reached.");
+            }
+        } else if (action == 2) {
+            selectedRequest.reject();
+            System.out.println("Borrow request rejected.");
+        } else {
+            System.out.println("Invalid action!");
         }
     }
 

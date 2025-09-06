@@ -1,16 +1,20 @@
 package ap.exercises.finalTerm_project.version1.data;
 
-import ap.exercises.finalTerm_project.version1.core.Borrow;
-import ap.exercises.finalTerm_project.version1.core.BorrowRequest;
-import ap.exercises.finalTerm_project.version1.model.Book;
-import ap.exercises.finalTerm_project.version1.model.Librarian;
-import ap.exercises.finalTerm_project.version1.model.Student;
 import java.time.format.DateTimeParseException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.net.URLEncoder;
 import java.net.URLDecoder;
 import java.io.*;
+
+import ap.exercises.finalTerm_project.version1.core.Borrow;
+import ap.exercises.finalTerm_project.version1.core.BorrowRequest;
+import ap.exercises.finalTerm_project.version1.core.Library;
+import ap.exercises.finalTerm_project.version1.model.Book;
+import ap.exercises.finalTerm_project.version1.model.Librarian;
+import ap.exercises.finalTerm_project.version1.model.LibraryManager;
+import ap.exercises.finalTerm_project.version1.model.Student;
+
 
 public class DataStorage {
     private static final String BOOKS_FILE = "books.txt";
@@ -42,7 +46,7 @@ public class DataStorage {
         }
     }
 
-    public void saveLibrary(ap.exercises.finalTerm_project.version1.core.Library library) {
+    public void saveLibrary(Library library) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(BOOKS_FILE))) {
             for (Book book : library.getBooks()) {
                 writer.println(escapeField(book.getBookId()) + "," + escapeField(book.getTitle()) + "," + escapeField(book.getAuthor()) + "," +
@@ -54,7 +58,7 @@ public class DataStorage {
         }
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(STUDENTS_FILE))) {
-            for (ap.exercises.finalTerm_project.version1.model.Student student : library.getStudents()) {
+            for (Student student : library.getStudents()) {
                 String borrowedBookIds = "";
                 if (!student.getBorrowedBooks().isEmpty()) {
                     for (int j = 0; j < student.getBorrowedBooks().size(); j++) {
@@ -92,6 +96,15 @@ public class DataStorage {
             System.err.println("Error saving librarians: " + e.getMessage());
         }
 
+//        try (PrintWriter writer = new PrintWriter(new FileWriter(MANAGER_FILE))) {
+//            LibraryManager manager = library.getManager();
+//            writer.println(escapeField(manager.getFirstName()) + "," + escapeField(manager.getLastName()) + "," +
+//                    escapeField(manager.getEducationLevel()) + "," + escapeField(manager.getUsername()) + "," +
+//                    escapeField(manager.getPassword()));
+//        } catch (IOException e) {
+//            System.err.println("Error saving manager: " + e.getMessage());
+//        }
+
         try (PrintWriter writer = new PrintWriter(new FileWriter(BORROWS_FILE))) {
             for (Borrow borrow : library.getBorrows()) {
                 String returnInfo = borrow.isReturned() ? "," + escapeField(borrow.getReceivedBy().getEmployeeId()) + "," + borrow.getReturnDate() : ",,";
@@ -116,6 +129,29 @@ public class DataStorage {
         }
     }
 
+        try (BufferedReader reader = new BufferedReader(new FileReader(BOOKS_FILE))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().isEmpty()) continue;
+                String[] parts = line.split(",");
+                if (parts.length >= 7) {
+                    try {
+                        src.selfTraining.version0.model.Book book = new src.selfTraining.version0.model.Book(unescapeField(parts[0]), unescapeField(parts[1]), unescapeField(parts[2]),
+                                Integer.parseInt(parts[3]), Integer.parseInt(parts[4]));
+                        book.setAvailable(Boolean.parseBoolean(parts[5]));
+                        for (int i = 0; i < Integer.parseInt(parts[6]); i++) {
+                            book.incrementBorrowCount();
+                        }
+                        library.addBook(book);
+                    } catch (Exception e) {
+                        System.err.println("Error loading book from line: " + line + ", Reason: " + e.getMessage());
+                    }
+                }
+            }
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+            System.err.println("Error loading books: " + e.getMessage());
+        }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(LIBRARIANS_FILE))) {
             String line;
@@ -127,7 +163,7 @@ public class DataStorage {
                         if (library.findLibrarianByEmployeeId(parts[2]) != null) {
                             continue;
                         }
-                        Librarian librarian = new Librarian(unescapeField(parts[0]), unescapeField(parts[1]),
+                        src.selfTraining.version0.model.Librarian librarian = new src.selfTraining.version0.model.Librarian(unescapeField(parts[0]), unescapeField(parts[1]),
                                 parts[2], unescapeField(parts[9]), unescapeField(parts[10]), unescapeField(parts[11]));
                         String phoneNumber = parts[3].isEmpty() ? "" : unescapeField(parts[3]);
                         librarian.setPhoneNumber(phoneNumber);
@@ -186,7 +222,7 @@ public class DataStorage {
                     if (parts.length > 7 && !parts[7].isEmpty()) {
                         String[] borrowedBookIds = parts[7].split("\\|");
                         for (String bookId : borrowedBookIds) {
-                            Book book = library.findBookByBookId(unescapeField(bookId));
+                            src.selfTraining.version0.model.Book book = library.findBookByBookId(unescapeField(bookId));
                             if (book != null) {
                                 student.addBorrowedBookFromStorage(book);
                             } else {
@@ -219,13 +255,13 @@ public class DataStorage {
                 String[] parts = line.split(",");
                 if (parts.length >= 6) {
                     try {
-                        Book book = library.findBookByBookId(unescapeField(parts[0]));
+                        src.selfTraining.version0.model.Book book = library.findBookByBookId(unescapeField(parts[0]));
                         src.selfTraining.version0.model.Student student = library.findStudentByStudentId(parts[1]);
-                        Librarian issuedBy = library.findLibrarianByEmployeeId(parts[2]);
+                        src.selfTraining.version0.model.Librarian issuedBy = library.findLibrarianByEmployeeId(parts[2]);
                         if (book != null && student != null && issuedBy != null) {
-                            Borrow borrow = new Borrow(book, student, issuedBy, LocalDate.parse(parts[3]));
+                            src.selfTraining.version0.core.Borrow borrow = new Borrow(book, student, issuedBy, LocalDate.parse(parts[3]));
                             if (Boolean.parseBoolean(parts[5]) && parts.length >= 8) {
-                                Librarian receivedBy = library.findLibrarianByEmployeeId(parts[6]);
+                                src.selfTraining.version0.model.Librarian receivedBy = library.findLibrarianByEmployeeId(parts[6]);
                                 if (receivedBy != null) {
                                     borrow.returnBook(receivedBy, LocalDate.parse(parts[7]));
                                 }
@@ -253,7 +289,7 @@ public class DataStorage {
                         Student student = library.findStudentByStudentId(parts[1]);
                         Librarian assignedLibrarian = library.findLibrarianByEmployeeId(parts[2]);
                         if (book != null && student != null && assignedLibrarian != null) {
-                            BorrowRequest request = new BorrowRequest(book, student, assignedLibrarian,
+                            src.selfTraining.version0.core.BorrowRequest request = new src.selfTraining.version0.core.BorrowRequest(book, student, assignedLibrarian,
                                     LocalDate.parse(parts[3]), LocalDate.parse(parts[4]), Boolean.parseBoolean(parts[6]));
                             request.setStatus(BorrowRequest.RequestStatus.valueOf(parts[5]));
                             library.addBorrowRequest(request);

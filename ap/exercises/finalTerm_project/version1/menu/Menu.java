@@ -7,7 +7,7 @@ public abstract class Menu {
     protected Library library;
     protected InputProcessor inputProcessor;
 
-    public Menu(Library library, InputProcessor inputProcessor) {
+    public Menu(Library library,InputProcessor inputProcessor) {
         this.library = library;
         this.inputProcessor = inputProcessor;
     }
