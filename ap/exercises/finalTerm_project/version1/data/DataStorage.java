@@ -7,12 +7,12 @@ import java.net.URLEncoder;
 import java.net.URLDecoder;
 import java.io.*;
 
+import ap.exercises.finalTerm_project.version1.model.LibraryManager;
 import ap.exercises.finalTerm_project.version1.core.Borrow;
 import ap.exercises.finalTerm_project.version1.core.BorrowRequest;
 import ap.exercises.finalTerm_project.version1.core.Library;
 import ap.exercises.finalTerm_project.version1.model.Book;
 import ap.exercises.finalTerm_project.version1.model.Librarian;
-//import ap.exercises.finalTerm_project.version1.model.LibraryManager;
 import ap.exercises.finalTerm_project.version1.model.Student;
 
 
@@ -96,14 +96,14 @@ public class DataStorage {
             System.err.println("Error saving librarians: " + e.getMessage());
         }
 
-//        try (PrintWriter writer = new PrintWriter(new FileWriter(MANAGER_FILE))) {
-//            LibraryManager manager = library.getManager();
-//            writer.println(escapeField(manager.getFirstName()) + "," + escapeField(manager.getLastName()) + "," +
-//                    escapeField(manager.getEducationLevel()) + "," + escapeField(manager.getUsername()) + "," +
-//                    escapeField(manager.getPassword()));
-//        } catch (IOException e) {
-//            System.err.println("Error saving manager: " + e.getMessage());
-//        }
+        try (PrintWriter writer = new PrintWriter(new FileWriter(MANAGER_FILE))) {
+            LibraryManager manager = library.getManager();
+            writer.println(escapeField(manager.getFirstName()) + "," + escapeField(manager.getLastName()) + "," +
+                    escapeField(manager.getEducationLevel()) + "," + escapeField(manager.getUsername()) + "," +
+                    escapeField(manager.getPassword()));
+        } catch (IOException e) {
+            System.err.println("Error saving manager: " + e.getMessage());
+        }
 
         try (PrintWriter writer = new PrintWriter(new FileWriter(BORROWS_FILE))) {
             for (Borrow borrow : library.getBorrows()) {
@@ -129,6 +129,27 @@ public class DataStorage {
         }
     }
 
+    public Library loadLibrary() {
+        LibraryManager manager = null;
+        try (BufferedReader reader = new BufferedReader(new FileReader(MANAGER_FILE))) {
+            String line = reader.readLine();
+            if (line != null && !line.trim().isEmpty()) {
+                String[] parts = line.split(",");
+                if (parts.length >= 5) {
+                    manager = new LibraryManager(unescapeField(parts[0]), unescapeField(parts[1]),
+                            unescapeField(parts[2]), unescapeField(parts[3]), unescapeField(parts[4]));
+                }
+            }
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+            System.err.println("Error loading manager: " + e.getMessage());
+        }
+        if (manager == null) {
+            manager = new LibraryManager("Admin", "Manager", "PhD", "admin", "admin123");
+        }
+
+        Library library = new Library("University Central Library", manager);
+
         try (BufferedReader reader = new BufferedReader(new FileReader(BOOKS_FILE))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -136,7 +157,7 @@ public class DataStorage {
                 String[] parts = line.split(",");
                 if (parts.length >= 7) {
                     try {
-                        src.selfTraining.version0.model.Book book = new src.selfTraining.version0.model.Book(unescapeField(parts[0]), unescapeField(parts[1]), unescapeField(parts[2]),
+                        Book book = new Book(unescapeField(parts[0]), unescapeField(parts[1]), unescapeField(parts[2]),
                                 Integer.parseInt(parts[3]), Integer.parseInt(parts[4]));
                         book.setAvailable(Boolean.parseBoolean(parts[5]));
                         for (int i = 0; i < Integer.parseInt(parts[6]); i++) {
@@ -163,7 +184,7 @@ public class DataStorage {
                         if (library.findLibrarianByEmployeeId(parts[2]) != null) {
                             continue;
                         }
-                        src.selfTraining.version0.model.Librarian librarian = new src.selfTraining.version0.model.Librarian(unescapeField(parts[0]), unescapeField(parts[1]),
+                        Librarian librarian = new Librarian(unescapeField(parts[0]), unescapeField(parts[1]),
                                 parts[2], unescapeField(parts[9]), unescapeField(parts[10]), unescapeField(parts[11]));
                         String phoneNumber = parts[3].isEmpty() ? "" : unescapeField(parts[3]);
                         librarian.setPhoneNumber(phoneNumber);
@@ -208,7 +229,7 @@ public class DataStorage {
                     } catch (DateTimeParseException e) {
                         throw new IllegalArgumentException("Invalid join date format: " + parts[4]);
                     }
-                    src.selfTraining.version0.model.Student student = new src.selfTraining.version0.model.Student(
+                    Student student = new Student(
                             unescapeField(parts[0]),
                             unescapeField(parts[1]),
                             parts[2],
@@ -261,7 +282,7 @@ public class DataStorage {
                         if (book != null && student != null && issuedBy != null) {
                             Borrow borrow = new Borrow(book, student, issuedBy, LocalDate.parse(parts[3]));
                             if (Boolean.parseBoolean(parts[5]) && parts.length >= 8) {
-                                src.selfTraining.version0.model.Librarian receivedBy = library.findLibrarianByEmployeeId(parts[6]);
+                                Librarian receivedBy = library.findLibrarianByEmployeeId(parts[6]);
                                 if (receivedBy != null) {
                                     borrow.returnBook(receivedBy, LocalDate.parse(parts[7]));
                                 }
@@ -289,7 +310,7 @@ public class DataStorage {
                         Student student = library.findStudentByStudentId(parts[1]);
                         Librarian assignedLibrarian = library.findLibrarianByEmployeeId(parts[2]);
                         if (book != null && student != null && assignedLibrarian != null) {
-                            src.selfTraining.version0.core.BorrowRequest request = new src.selfTraining.version0.core.BorrowRequest(book, student, assignedLibrarian,
+                            BorrowRequest request = new BorrowRequest(book, student, assignedLibrarian,
                                     LocalDate.parse(parts[3]), LocalDate.parse(parts[4]), Boolean.parseBoolean(parts[6]));
                             request.setStatus(BorrowRequest.RequestStatus.valueOf(parts[5]));
                             library.addBorrowRequest(request);

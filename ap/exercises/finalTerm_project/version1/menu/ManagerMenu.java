@@ -50,7 +50,7 @@ public class ManagerMenu extends Menu {
                         System.out.println("NOT IMPLEMENTED");
                         break;
                     case 3:
-                        System.out.println("NOT IMPLEMENTED");
+                        viewLibrarianStatistics();
                         break;
                     case 4:
                         System.out.println("NOT IMPLEMENTED");
@@ -125,6 +125,17 @@ public class ManagerMenu extends Menu {
             System.out.println("Password changed successfully!");
         } catch (IllegalArgumentException e) {
             System.out.println("Password change failed: " + e.getMessage());
+        }
+    }
+
+    private void viewLibrarianStatistics() {
+        System.out.println("Librarian Statistics:");
+        for (Librarian librarian : library.getLibrarians()) {
+            System.out.println(librarian.getFirstName() + " " + librarian.getLastName() +
+                    ": Registered Books: " + librarian.getRegisteredBooks() +
+                    ", Borrows Given: " + librarian.getBorrowsGiven() +
+                    ", Borrows Received: " + librarian.getBorrowsReceived() +
+                    ", Total Processed: " + librarian.getProcessedLoans());
         }
     }
 }
