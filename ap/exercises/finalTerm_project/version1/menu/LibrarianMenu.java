@@ -75,7 +75,7 @@ public class LibrarianMenu extends Menu {
                         changePassword();
                         break;
                     case 9:
-                        System.out.println("NOT IMPLEMENTED");
+                        toggleStudentActive();
                         break;
                     case 10:
                         librarian = null;
@@ -262,6 +262,18 @@ public class LibrarianMenu extends Menu {
             System.out.println("Not Returned: " + notReturned);
             System.out.println("Delayed Returns: " + delayed);
         }
+    }
+
+    private void toggleStudentActive() {
+        String studentId = inputProcessor.getStringInput("Enter student ID: ");
+        Student student = library.findStudentByStudentId(studentId);
+        if (student == null) {
+            System.out.println("Student not found.");
+            return;
+        }
+        student.setActive(!student.isActive());
+        System.out.println("Student " + student.getFirstName() + " " + student.getLastName() +
+                " is now " + (student.isActive() ? "active" : "inactive") + ".");
     }
 }
 
