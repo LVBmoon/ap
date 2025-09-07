@@ -24,6 +24,8 @@ public class productTools {
         objects.add(new Pen("pen kind - 03", 500, Pen.Color.GREEN));
         objects.add(new Pen("pen kind - 03", 500, Pen.Color.GREEN));
 
+        System.out.println("-----");
+
         print(method1(objects));
 
         System.out.println("-----");
@@ -61,11 +63,11 @@ public class productTools {
         return result;
     }
 
-    public static Map<Pen.Color, Long> method3(List<Pen> pens) {
+    public static Map<Pen.Color, Integer> method3(List<Pen> pens) {
         return pens.stream()
                 .collect(Collectors.groupingBy(
                         Pen::getColor,
-                        Collectors.counting()
+                        Collectors.reducing(0, e -> 1, Integer::sum)
                 ));
     }
 
