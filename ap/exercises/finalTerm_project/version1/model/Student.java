@@ -1,6 +1,5 @@
 package ap.exercises.finalTerm_project.version1.model;
 
-import ap.exercises.finalTerm_project.version1.core.Library;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -86,7 +85,7 @@ public class Student extends ap.exercises.finalTerm_project.version1.model.User 
         return password;
     }
 
-    public ArrayList<ap.exercises.finalTerm_project.version1.model.Book> getBorrowedBooks() {
+    public ArrayList<Book> getBorrowedBooks() {
         return new ArrayList<>(borrowedBooks);
     }
 
@@ -98,7 +97,7 @@ public class Student extends ap.exercises.finalTerm_project.version1.model.User 
         return this.password.equals(password);
     }
 
-    public boolean borrowBook(ap.exercises.finalTerm_project.version1.model.Book book) {
+    public boolean borrowBook(Book book) {
         if (!isActive) {
             return false;
         }
@@ -115,7 +114,7 @@ public class Student extends ap.exercises.finalTerm_project.version1.model.User 
     }
 
     public boolean returnBook(ap.exercises.finalTerm_project.version1.model.Book book) {
-        for (ap.exercises.finalTerm_project.version1.model.Book b : borrowedBooks) {
+        for (Book b : borrowedBooks) {
             if (b.getBookId().equalsIgnoreCase(book.getBookId())) {
                 borrowedBooks.remove(b);
                 book.setAvailable(true);

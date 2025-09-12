@@ -11,7 +11,7 @@ public class BorrowRequest {
     private Librarian assignedLibrarian;
     private LocalDate requestDate;
     private LocalDate dueDate;
-    private ap.exercises.finalTerm_project.version1.core.BorrowRequest.RequestStatus status;
+    private RequestStatus status;
     private boolean isReturnRequest;
 
     public enum RequestStatus {

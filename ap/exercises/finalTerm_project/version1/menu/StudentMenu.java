@@ -24,6 +24,7 @@ public class StudentMenu extends Menu {
     public void showMenu() {
         while (true) {
             if (student == null) {
+
                 System.out.println("\n=== Student Menu ===");
                 System.out.println("   1. Register");
                 System.out.println("   2. Login");
