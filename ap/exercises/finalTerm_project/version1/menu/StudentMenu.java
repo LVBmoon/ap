@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class StudentMenu extends Menu {
-    private ap.exercises.finalTerm_project.version1.model.Student student;
+    private Student student;
 
     public StudentMenu(Library library, InputProcessor inputProcessor) {
         super(library, inputProcessor);
@@ -94,12 +94,12 @@ public class StudentMenu extends Menu {
         String username = inputProcessor.getStringInput("Enter username: ");
         String password = inputProcessor.getStringInput("Enter password: ");
 
-        ap.exercises.finalTerm_project.version1.model.Student existing = library.findStudentByStudentId(studentId);
+        Student existing = library.findStudentByStudentId(studentId);
         if (existing != null) {
             System.out.println("Student ID already exists!");
             return;
         }
-        for (ap.exercises.finalTerm_project.version1.model.Student s : library.getStudents()) {
+        for (Student s : library.getStudents()) {
             if (s.getUsername().equals(username)) {
                 System.out.println("Username already exists!");
                 return;
@@ -107,10 +107,11 @@ public class StudentMenu extends Menu {
         }
 
         try {
-            ap.exercises.finalTerm_project.version1.model.Student newStudent = new ap.exercises.finalTerm_project.version1.model.Student(firstName, lastName, studentId, fieldOfStudy, username, password, library);
+            Student newStudent = new Student(firstName, lastName, studentId, fieldOfStudy, username, password, library);
             library.addStudent(newStudent);
             System.out.println("Registration successful.");
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e) {
             System.out.println("Registration failed: " + e.getMessage());
         }
     }
@@ -137,12 +138,12 @@ public class StudentMenu extends Menu {
         String yearStr = inputProcessor.getStringInput("Enter publication year (*or press enter to skip): ");
         Integer year = yearStr.isEmpty() ? null : Integer.parseInt(yearStr);
         String author = inputProcessor.getStringInput("Enter author (or press enter to skip): ");
-        List<ap.exercises.finalTerm_project.version1.model.Book> results = library.searchBooks(title.isEmpty() ? null : title, year, author.isEmpty() ? null : author);
+        List<Book> results = library.searchBooks(title.isEmpty() ? null : title, year, author.isEmpty() ? null : author);
         if (results.isEmpty()) {
             System.out.println("No books found.");
         } else {
             System.out.println("Search Results:");
-            for (ap.exercises.finalTerm_project.version1.model.Book book : results) {
+            for (Book book : results) {
                 System.out.println(book);
             }
         }
@@ -212,7 +213,7 @@ public class StudentMenu extends Menu {
     private void viewActiveBorrows() {
         boolean found = false;
         System.out.println("Active Borrows:");
-        for (ap.exercises.finalTerm_project.version1.core.Borrow borrow : library.getBorrows()) {
+        for (Borrow borrow : library.getBorrows()) {
             if (borrow.getStudent().getStudentId().equals(student.getStudentId()) && !borrow.isReturned()) {
                 System.out.println(borrow);
                 found = true;
@@ -226,7 +227,7 @@ public class StudentMenu extends Menu {
     private void viewBorrowHistory() {
         boolean found = false;
         System.out.println("Borrow History:");
-        for (ap.exercises.finalTerm_project.version1.core.Borrow borrow : library.getBorrows()) {
+        for (Borrow borrow : library.getBorrows()) {
             if (borrow.getStudent().getStudentId().equals(student.getStudentId())) {
                 System.out.println(borrow);
                 found = true;
@@ -248,7 +249,8 @@ public class StudentMenu extends Menu {
         try {
             student.setPassword(newPass);
             System.out.println("Password changed successfully!");
-        } catch (IllegalArgumentException e) {
+        }
+        catch (IllegalArgumentException e) {
             System.out.println("Password change failed: " + e.getMessage());
         }
     }

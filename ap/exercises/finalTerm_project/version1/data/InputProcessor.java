@@ -19,7 +19,8 @@ public class InputProcessor {
             try {
                 System.out.print(prompt);
                 return Integer.parseInt(scanner.nextLine().trim());
-            } catch (NumberFormatException e) {
+            }
+            catch (NumberFormatException e) {
                 System.out.println("Invalid input! Please enter a number.");
             }
         }
